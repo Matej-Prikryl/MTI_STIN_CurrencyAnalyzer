@@ -1,6 +1,7 @@
 package cz.tul.stin.backend.config;
 
 import cz.tul.stin.backend.service.RateClient;
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ public class StartupRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String @NonNull ... args) throws Exception {
         var response = rateClient.getLiveRates("EUR");
         Map<String, Double> quotes = response.getQuotes();
         System.out.println(quotes.get("EURCZK"));

@@ -1,7 +1,5 @@
 package cz.tul.stin.backend.model;
 
-import javax.annotation.processing.Generated;
-
 public abstract class RateResponse {
     private boolean success;
     private String source;
