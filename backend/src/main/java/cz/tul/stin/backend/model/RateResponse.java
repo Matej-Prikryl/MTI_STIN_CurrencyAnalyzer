@@ -4,7 +4,7 @@ import javax.annotation.processing.Generated;
 
 public abstract class RateResponse {
     private boolean success;
-    private String base;
+    private String source;
 
     public boolean isSuccess() {
         return success;
@@ -14,11 +14,11 @@ public abstract class RateResponse {
         this.success = success;
     }
 
-    public String getBase() {
-        return base;
+    public String getSource() {
+        return source;
     }
 
-    public void setBase(String base) {
-        this.base = base;
+    public void setSource(String source) {
+        this.source = source;
     }
 }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class LiveRateResponse extends RateResponse {
     private int timestamp;
-    private Map<String, Double> rates;
+    private Map<String, Double> quotes;
 
     public int getTimestamp() {
         return timestamp;
@@ -14,11 +14,11 @@ public class LiveRateResponse extends RateResponse {
         this.timestamp = timestamp;
     }
 
-    public Map<String, Double> getRates() {
-        return rates;
+    public Map<String, Double> getQuotes() {
+        return quotes;
     }
 
-    public void setRates(Map<String, Double> rates) {
-        this.rates = rates;
+    public void setQuotes(Map<String, Double> quotes) {
+        this.quotes = quotes;
     }
 }
