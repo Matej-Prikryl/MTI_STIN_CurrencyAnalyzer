@@ -15,10 +15,14 @@ public class MockRateClient implements RateClient {
     public LiveRateResponse getLiveRates(String base) {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            InputStream is = getClass().getResourceAsStream("/mock-data/live.json");
+            InputStream is = getMockDataStream();
             return mapper.readValue(is, LiveRateResponse.class);
         } catch (Exception e) {
             throw new RuntimeException("Error: Unable to load mock data", e);
         }
+    }
+
+    protected InputStream getMockDataStream() {
+        return getClass().getResourceAsStream("/mock-data/live.json");
     }
 }
