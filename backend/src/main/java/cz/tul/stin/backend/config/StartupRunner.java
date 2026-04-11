@@ -25,7 +25,12 @@ public class StartupRunner implements CommandLineRunner {
         var client = new MockRateClient();
         calculator = new RateCalculatorService(client);
         CurrencyExtremes extremes = calculator.getExtremes("EUR");
+        Map<String, Double> averages = calculator.getAverageRates("EUR");
         System.out.printf("Strongest: %s (%f)%n", extremes.strongest().getKey() ,extremes.strongest().getValue());
         System.out.printf("Weakest: %s (%f)%n", extremes.weakest().getKey() ,extremes.weakest().getValue());
+        System.out.println("Averages:");
+        for (String currency : averages.keySet()) {
+            System.out.printf("%s: %f%n", currency, averages.get(currency));
+        }
     }
 }

@@ -2,8 +2,10 @@ package cz.tul.stin.backend.service;
 
 import cz.tul.stin.backend.model.CurrencyExtremes;
 import cz.tul.stin.backend.model.LiveRateResponse;
+import cz.tul.stin.backend.model.TimeframeRateResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -12,6 +14,37 @@ public class RateCalculatorService {
 
     public RateCalculatorService(RateClient client) {
         this.rateClient = client;
+    }
+
+    public Map<String, Double> getAverageRates(String base) {
+        TimeframeRateResponse response = rateClient.getTimeframeRates(base);
+        Map<String, Map<String, Double>> allRates = response.getQuotes();
+
+        if (allRates == null || allRates.isEmpty()) {
+            throw new IllegalArgumentException("No data available for the given timeframe.");
+        }
+
+        Map<String, Double> sums = new HashMap<>();
+        Map<String, Integer> counts = new HashMap<>();
+
+        for (Map<String, Double> dailyRates : allRates.values()) {
+            if (dailyRates == null) continue;
+
+            for (Map.Entry<String, Double> entry : dailyRates.entrySet()) {
+                String currency = entry.getKey();
+                Double rate = entry.getValue();
+
+                sums.put(currency, sums.getOrDefault(currency, 0.0) + rate);
+                counts.put(currency, counts.getOrDefault(currency, 0) + 1);
+            }
+        }
+
+        Map<String, Double> averages = new HashMap<>();
+        for (String currency : sums.keySet()) {
+            averages.put(currency, sums.get(currency) / counts.get(currency));
+        }
+
+        return averages;
     }
 
     public CurrencyExtremes getExtremes(String base) {
