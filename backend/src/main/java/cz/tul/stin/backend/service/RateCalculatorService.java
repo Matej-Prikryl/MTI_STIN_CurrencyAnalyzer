@@ -18,6 +18,10 @@ public class RateCalculatorService {
         LiveRateResponse response = rateClient.getLiveRates(base);
         Map<String, Double> rates = response.getQuotes();
 
+        if (rates == null || rates.isEmpty()) {
+            throw new RuntimeException("Error: No rates to compare.");
+        }
+
         var strongest = rates.entrySet().stream()
                 .min(Map.Entry.comparingByValue())
                 .get();
