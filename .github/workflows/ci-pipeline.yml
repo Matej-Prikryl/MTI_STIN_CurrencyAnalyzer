@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     # Nastavíme pracovní složku na backend, protože tam máme Spring Boot
     defaults:
