@@ -1,7 +1,5 @@
 package cz.tul.stin.backend.service;
 
-import cz.tul.stin.backend.model.CurrencyExtremes;
-import cz.tul.stin.backend.model.LiveRateResponse;
 import cz.tul.stin.backend.model.TimeframeRateResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,121 +17,90 @@ import static org.mockito.Mockito.when;
 class RateCalculatorServiceTest {
 
     @Mock
-    private RateClient mockClient;
+    private RateClient rateClient;
 
     @InjectMocks
-    private RateCalculatorService calculator;
+    private RateCalculatorService rateCalculatorService;
 
     @Test
-    void testGetExtremes_returnsCorrectExtremes() {
-        LiveRateResponse mockResponse = new LiveRateResponse();
-        Map<String, Double> rates = new HashMap<>();
-        rates.put("CZK", 25.0);
-        rates.put("USD", 1.1);
-        rates.put("HUF", 390.0);
-        mockResponse.setQuotes(rates);
+    void testGetCurrencyInfo_Success() {
+        // Prepare mock data
+        String base = "EUR";
+        TimeframeRateResponse response = new TimeframeRateResponse();
+        
+        // Mocking latest quotes for getExtremes
+        Map<String, Double> latestQuotes = new HashMap<>();
+        latestQuotes.put("USD", 1.05);
+        latestQuotes.put("CZK", 24.5);
+        latestQuotes.put("GBP", 0.85);
+        response.setLatestQuotes(latestQuotes);
 
-        when(mockClient.getLiveRates("EUR")).thenReturn(mockResponse);
-
-        CurrencyExtremes result = calculator.getExtremes("EUR");
-
-        assertNotNull(result);
-        assertEquals("USD", result.strongest().getKey(), "The strongest currency should be USD");
-        assertEquals(1.1, result.strongest().getValue());
-
-        assertEquals("HUF", result.weakest().getKey(), "The weakest currency should be HUF");
-        assertEquals(390.0, result.weakest().getValue());
-    }
-
-    @Test
-    void testGetExtremes_throwsExceptionIfDataIsMissing() {
-        LiveRateResponse mockResponse = new LiveRateResponse();
-        mockResponse.setQuotes(new HashMap<>());
-
-        when(mockClient.getLiveRates("EUR")).thenReturn(mockResponse);
-
-        RuntimeException e = assertThrows(RuntimeException.class, () -> {
-            calculator.getExtremes("EUR");
-        });
-
-        assertEquals("Error: No rates to compare.", e.getMessage());
-    }
-
-    @Test
-    void testGetAverageRates_returnsCorrectAverages() {
-        TimeframeRateResponse mockResponse = new TimeframeRateResponse();
+        // Mocking quotes for getAverageRates
         Map<String, Map<String, Double>> quotes = new HashMap<>();
+        
+        Map<String, Double> day1 = new HashMap<>();
+        day1.put("USD", 1.0);
+        day1.put("CZK", 24.0);
+        quotes.put("2026-01-01", day1);
 
-        Map<String, Double> dayOneRates = new HashMap<>();
-        dayOneRates.put("EURCZK", 24.75);
-        dayOneRates.put("EURUSD", 1.08);
+        Map<String, Double> day2 = new HashMap<>();
+        day2.put("USD", 1.1);
+        day2.put("CZK", 25.0);
+        quotes.put("2026-01-02", day2);
 
-        Map<String, Double> dayTwoRates = new HashMap<>();
-        dayTwoRates.put("EURCZK", 24.25);
-        dayTwoRates.put("EURUSD", 1.12);
-        dayTwoRates.put("EURGBP", 0.86);
+        response.setQuotes(quotes);
 
-        quotes.put("2025-01-01", dayOneRates);
-        quotes.put("2025-01-02", dayTwoRates);
-        mockResponse.setQuotes(quotes);
+        when(rateClient.getTimeframeRates(base)).thenReturn(response);
 
-        when(mockClient.getTimeframeRates("EUR")).thenReturn(mockResponse);
+        // Execute service
+        var result = rateCalculatorService.getCurrencyInfo(base);
 
-        Map<String, Double> result = calculator.getAverageRates("EUR");
-
+        // Assertions for averages
         assertNotNull(result);
-        assertEquals(3, result.size());
-        assertEquals(24.5, result.get("EURCZK"));
-        assertEquals(1.1, result.get("EURUSD"));
-        assertEquals(0.86, result.get("EURGBP"));
+        assertEquals(2, result.averages().size());
+        assertEquals(1.05, result.averages().get("USD"));
+        assertEquals(24.5, result.averages().get("CZK"));
+
+        // Assertions for extremes
+        assertEquals("GBP", result.extremes().strongest().getKey());
+        assertEquals(0.85, result.extremes().strongest().getValue());
+        assertEquals("CZK", result.extremes().weakest().getKey());
+        assertEquals(24.5, result.extremes().weakest().getValue());
     }
 
     @Test
-    void testGetAverageRates_ignoresMissingDailyRates() {
-        TimeframeRateResponse mockResponse = new TimeframeRateResponse();
-        Map<String, Map<String, Double>> quotes = new HashMap<>();
+    void testGetCurrencyInfo_EmptyQuotesThrowsException() {
+        String base = "EUR";
+        TimeframeRateResponse response = new TimeframeRateResponse();
+        response.setLatestQuotes(Map.of("USD", 1.0));
+        response.setQuotes(new HashMap<>());
 
-        Map<String, Double> dayOneRates = new HashMap<>();
-        dayOneRates.put("EURCZK", 24.75);
-        dayOneRates.put("EURUSD", 1.08);
+        when(rateClient.getTimeframeRates(base)).thenReturn(response);
 
-        quotes.put("2025-01-01", dayOneRates);
-        quotes.put("2025-01-02", null);
-        mockResponse.setQuotes(quotes);
-
-        when(mockClient.getTimeframeRates("EUR")).thenReturn(mockResponse);
-
-        Map<String, Double> result = calculator.getAverageRates("EUR");
-
-        assertEquals(24.75, result.get("EURCZK"));
-        assertEquals(1.08, result.get("EURUSD"));
+        assertThrows(IllegalArgumentException.class, () -> rateCalculatorService.getCurrencyInfo(base));
     }
 
     @Test
-    void testGetAverageRates_throwsExceptionIfDataIsMissing() {
-        TimeframeRateResponse mockResponse = new TimeframeRateResponse();
-        mockResponse.setQuotes(new HashMap<>());
+    void testGetCurrencyInfo_EmptyLatestQuotesThrowsException() {
+        String base = "EUR";
+        TimeframeRateResponse response = new TimeframeRateResponse();
+        response.setLatestQuotes(new HashMap<>());
+        response.setQuotes(Map.of("2026-01-01", Map.of("USD", 1.0)));
 
-        when(mockClient.getTimeframeRates("EUR")).thenReturn(mockResponse);
+        when(rateClient.getTimeframeRates(base)).thenReturn(response);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            calculator.getAverageRates("EUR");
-        });
-
-        assertEquals("No data available for the given timeframe.", exception.getMessage());
+        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base));
     }
 
     @Test
-    void testGetAverageRates_throwsExceptionIfQuotesAreNull() {
-        TimeframeRateResponse mockResponse = new TimeframeRateResponse();
-        mockResponse.setQuotes(null);
+    void testGetCurrencyInfo_NullLatestQuotesThrowsException() {
+        String base = "EUR";
+        TimeframeRateResponse response = new TimeframeRateResponse();
+        response.setLatestQuotes(null);
+        response.setQuotes(Map.of("2026-01-01", Map.of("USD", 1.0)));
 
-        when(mockClient.getTimeframeRates("EUR")).thenReturn(mockResponse);
+        when(rateClient.getTimeframeRates(base)).thenReturn(response);
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            calculator.getAverageRates("EUR");
-        });
-
-        assertEquals("No data available for the given timeframe.", exception.getMessage());
+        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base));
     }
 }
