@@ -1,16 +1,12 @@
 package cz.tul.stin.backend.config;
 
-import cz.tul.stin.backend.model.CurrencyExtremes;
 import cz.tul.stin.backend.model.CurrencyInfo;
 import cz.tul.stin.backend.service.MockRateClient;
 import cz.tul.stin.backend.service.RateCalculatorService;
-import cz.tul.stin.backend.service.RateClient;
 import org.jspecify.annotations.NonNull;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 @Component
 @Profile("dev")
