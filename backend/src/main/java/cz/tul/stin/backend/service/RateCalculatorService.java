@@ -1,7 +1,7 @@
 package cz.tul.stin.backend.service;
 
+import cz.tul.stin.backend.model.CurrencyInfo;
 import cz.tul.stin.backend.model.CurrencyExtremes;
-import cz.tul.stin.backend.model.LiveRateResponse;
 import cz.tul.stin.backend.model.TimeframeRateResponse;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,14 @@ public class RateCalculatorService {
         this.rateClient = client;
     }
 
-    public Map<String, Double> getAverageRates(String base) {
+    public CurrencyInfo getCurrencyInfo(String base) {
         TimeframeRateResponse response = rateClient.getTimeframeRates(base);
+        var extremes = getExtremes(response);
+        var averages = getAverageRates(response);
+        return new CurrencyInfo(extremes, averages);
+    }
+
+    private Map<String, Double> getAverageRates(TimeframeRateResponse response) {
         Map<String, Map<String, Double>> allRates = response.getQuotes();
 
         if (allRates == null || allRates.isEmpty()) {
@@ -47,10 +53,8 @@ public class RateCalculatorService {
         return averages;
     }
 
-    public CurrencyExtremes getExtremes(String base) {
-        LiveRateResponse response = rateClient.getLiveRates(base);
-        Map<String, Double> rates = response.getQuotes();
-
+    private CurrencyExtremes getExtremes(TimeframeRateResponse response) {
+        var rates = response.getLatestQuotes();
         if (rates == null || rates.isEmpty()) {
             throw new RuntimeException("Error: No rates to compare.");
         }

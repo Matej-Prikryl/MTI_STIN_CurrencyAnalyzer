@@ -2,11 +2,31 @@ package cz.tul.stin.backend.model;
 
 import java.util.Map;
 
-public class TimeframeRateResponse extends RateResponse {
+public class TimeframeRateResponse {
+    private boolean success;
+    private String source;
     private boolean timeframe;
     private String start_date;
     private String end_date;
     private Map<String, Map<String, Double>> quotes;
+
+    private Map<String, Double> latestQuotes;
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     public boolean isTimeframe() {
         return timeframe;
@@ -38,5 +58,13 @@ public class TimeframeRateResponse extends RateResponse {
 
     public void setQuotes(Map<String, Map<String, Double>> quotes) {
         this.quotes = quotes;
+    }
+
+    public Map<String, Double> getLatestQuotes() {
+        return latestQuotes;
+    }
+
+    public void setLatestQuotes(Map<String, Double> latestQuotes) {
+        this.latestQuotes = latestQuotes;
     }
 }

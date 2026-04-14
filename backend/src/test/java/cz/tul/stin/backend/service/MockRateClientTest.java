@@ -1,6 +1,5 @@
 package cz.tul.stin.backend.service;
 
-import cz.tul.stin.backend.model.LiveRateResponse;
 import cz.tul.stin.backend.model.TimeframeRateResponse;
 import org.junit.jupiter.api.Test;
 
