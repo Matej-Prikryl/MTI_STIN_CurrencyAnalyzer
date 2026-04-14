@@ -18,7 +18,7 @@ public class MockRateClient implements RateClient {
             ObjectMapper mapper = new ObjectMapper();
             InputStream is = getClass().getResourceAsStream("/mock-data/timeframe.json");
             var response = mapper.readValue(is, TimeframeRateResponse.class);
-            Map<String, Double> rates = response.getQuotes().get("2010-03-01");
+            Map<String, Double> rates = response.getQuotes().get(response.getStart_date());
             response.setLatestQuotes(rates);
             return response;
         } catch (Exception e) {
