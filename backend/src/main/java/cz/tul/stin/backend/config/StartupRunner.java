@@ -34,10 +34,10 @@ public class StartupRunner implements CommandLineRunner {
         calculator = new RateCalculatorService(repository);
 
         Set<String> targetCurrencies = new HashSet<>();
-        targetCurrencies.add("EURUSD");
-        targetCurrencies.add("EUREUR");
-        targetCurrencies.add("EURGBP");
-        targetCurrencies.add("EURCZK");
+        targetCurrencies.add("USD");
+        targetCurrencies.add("EUR");
+        targetCurrencies.add("GBP");
+        targetCurrencies.add("CZK");
 
         CurrencyInfo info = calculator.getCurrencyInfo("EUR", "2010-03-01", "2010-03-02",  targetCurrencies);
         System.out.printf("Strongest: %s (%f)%n", info.extremes().strongest().getKey() ,info.extremes().strongest().getValue());

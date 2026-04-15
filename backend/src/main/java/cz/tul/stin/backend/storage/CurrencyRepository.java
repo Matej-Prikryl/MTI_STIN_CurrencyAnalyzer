@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -59,7 +60,21 @@ public class CurrencyRepository {
 
             if (response != null && response.getQuotes() != null && !response.getQuotes().isEmpty()) {
                 entry.rates.clear();
-                entry.rates.putAll(response.getQuotes());
+                
+                // Transform keys: EURCZK -> CZK
+                for (Map.Entry<String, Map<String, Double>> dateEntry : response.getQuotes().entrySet()) {
+                    Map<String, Double> originalRates = dateEntry.getValue();
+                    Map<String, Double> transformedRates = new HashMap<>();
+                    
+                    for (Map.Entry<String, Double> rateEntry : originalRates.entrySet()) {
+                        String currencyCode = rateEntry.getKey();
+                        if (currencyCode.startsWith(base) && currencyCode.length() > base.length()) {
+                            currencyCode = currencyCode.substring(base.length());
+                        }
+                        transformedRates.put(currencyCode, rateEntry.getValue());
+                    }
+                    entry.rates.put(dateEntry.getKey(), transformedRates);
+                }
 
                 entry.latestRates = entry.rates.lastEntry().getValue();
                 entry.isUpToDate = true;
