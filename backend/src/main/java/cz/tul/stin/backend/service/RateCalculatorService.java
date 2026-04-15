@@ -76,6 +76,9 @@ public class RateCalculatorService {
                 .max(Map.Entry.comparingByValue())
                 .orElseThrow();
 
-        return new CurrencyExtremes(strongest, weakest);
+        return new CurrencyExtremes(
+                new CurrencyExtremes.RateEntry(strongest.getKey(), strongest.getValue()),
+                new CurrencyExtremes.RateEntry(weakest.getKey(), weakest.getValue())
+        );
     }
 }

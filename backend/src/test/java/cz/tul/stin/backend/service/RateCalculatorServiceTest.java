@@ -69,10 +69,10 @@ class RateCalculatorServiceTest {
         assertEquals(24.5, result.averages().get("CZK"));
 
         // Assertions for extremes
-        assertEquals("GBP", result.extremes().strongest().getKey());
-        assertEquals(0.85, result.extremes().strongest().getValue());
-        assertEquals("CZK", result.extremes().weakest().getKey());
-        assertEquals(24.5, result.extremes().weakest().getValue());
+        assertEquals("GBP", result.extremes().strongest().key());
+        assertEquals(0.85, result.extremes().strongest().value());
+        assertEquals("CZK", result.extremes().weakest().key());
+        assertEquals(24.5, result.extremes().weakest().value());
     }
 
     @Test
