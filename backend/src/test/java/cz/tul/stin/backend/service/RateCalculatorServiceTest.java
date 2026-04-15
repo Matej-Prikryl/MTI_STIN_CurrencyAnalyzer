@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -30,12 +31,14 @@ class RateCalculatorServiceTest {
         String base = "EUR";
         String startDate = "2026-01-01";
         String endDate = "2026-01-02";
+        Set<String> targetCurrencies = Set.of("USD", "CZK", "GBP");
 
         // Mocking latest rates for getExtremes
         Map<String, Double> latestRates = new HashMap<>();
         latestRates.put("USD", 1.05);
         latestRates.put("CZK", 24.5);
         latestRates.put("GBP", 0.85);
+        latestRates.put("JPY", 150.0); // Should be filtered out
 
         // Mocking timeframe rates for getAverageRates
         TreeMap<String, Map<String, Double>> rates = new TreeMap<>();
@@ -43,22 +46,25 @@ class RateCalculatorServiceTest {
         Map<String, Double> day1 = new HashMap<>();
         day1.put("USD", 1.0);
         day1.put("CZK", 24.0);
+        day1.put("JPY", 140.0);
         rates.put("2026-01-01", day1);
 
         Map<String, Double> day2 = new HashMap<>();
         day2.put("USD", 1.1);
         day2.put("CZK", 25.0);
+        day2.put("JPY", 145.0);
         rates.put("2026-01-02", day2);
 
         when(currencyRepository.getLatestRates(base)).thenReturn(latestRates);
         when(currencyRepository.getTimeframeRates(base, startDate, endDate)).thenReturn(rates);
 
         // Execute service
-        CurrencyInfo result = rateCalculatorService.getCurrencyInfo(base, startDate, endDate);
+        CurrencyInfo result = rateCalculatorService.getCurrencyInfo(base, startDate, endDate, targetCurrencies);
 
         // Assertions for averages
         assertNotNull(result);
         assertEquals(2, result.averages().size());
+        assertFalse(result.averages().containsKey("JPY"));
         assertEquals(1.05, result.averages().get("USD"));
         assertEquals(24.5, result.averages().get("CZK"));
 
@@ -74,11 +80,12 @@ class RateCalculatorServiceTest {
         String base = "EUR";
         String startDate = "2026-01-01";
         String endDate = "2026-01-02";
+        Set<String> targetCurrencies = Set.of("USD");
 
         when(currencyRepository.getLatestRates(base)).thenReturn(Map.of("USD", 1.0));
         when(currencyRepository.getTimeframeRates(base, startDate, endDate)).thenReturn(new TreeMap<>());
 
-        assertThrows(IllegalArgumentException.class, () -> rateCalculatorService.getCurrencyInfo(base, startDate, endDate));
+        assertThrows(IllegalArgumentException.class, () -> rateCalculatorService.getCurrencyInfo(base, startDate, endDate, targetCurrencies));
     }
 
     @Test
@@ -86,10 +93,11 @@ class RateCalculatorServiceTest {
         String base = "EUR";
         String startDate = "2026-01-01";
         String endDate = "2026-01-02";
+        Set<String> targetCurrencies = Set.of("USD");
 
         when(currencyRepository.getLatestRates(base)).thenReturn(new HashMap<>());
 
-        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base, startDate, endDate));
+        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base, startDate, endDate, targetCurrencies));
     }
 
     @Test
@@ -97,9 +105,10 @@ class RateCalculatorServiceTest {
         String base = "EUR";
         String startDate = "2026-01-01";
         String endDate = "2026-01-02";
+        Set<String> targetCurrencies = Set.of("USD");
 
         when(currencyRepository.getLatestRates(base)).thenReturn(null);
 
-        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base, startDate, endDate));
+        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base, startDate, endDate, targetCurrencies));
     }
 }
