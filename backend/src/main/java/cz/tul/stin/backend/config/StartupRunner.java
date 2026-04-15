@@ -40,8 +40,8 @@ public class StartupRunner implements CommandLineRunner {
         targetCurrencies.add("CZK");
 
         CurrencyInfo info = calculator.getCurrencyInfo("EUR", "2010-03-01", "2010-03-02",  targetCurrencies);
-        System.out.printf("Strongest: %s (%f)%n", info.extremes().strongest().getKey() ,info.extremes().strongest().getValue());
-        System.out.printf("Weakest: %s (%f)%n", info.extremes().weakest().getKey() ,info.extremes().weakest().getValue());
+        System.out.printf("Strongest: %s (%f)%n", info.extremes().strongest().key() ,info.extremes().strongest().value());
+        System.out.printf("Weakest: %s (%f)%n", info.extremes().weakest().key() ,info.extremes().weakest().value());
         System.out.println("Averages:");
         for (String currency : info.averages().keySet()) {
             System.out.printf("%s: %f%n", currency, info.averages().get(currency));
