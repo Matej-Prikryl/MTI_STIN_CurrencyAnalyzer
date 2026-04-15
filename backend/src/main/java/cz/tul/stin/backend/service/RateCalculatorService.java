@@ -16,8 +16,8 @@ public class RateCalculatorService {
         this.rateClient = client;
     }
 
-    public CurrencyInfo getCurrencyInfo(String base) {
-        TimeframeRateResponse response = rateClient.getTimeframeRates(base);
+    public CurrencyInfo getCurrencyInfo(String base, String startDate, String endDate) {
+        TimeframeRateResponse response = rateClient.getTimeframeRates(base, startDate, endDate);
         var extremes = getExtremes(response);
         var averages = getAverageRates(response);
         return new CurrencyInfo(extremes, averages);

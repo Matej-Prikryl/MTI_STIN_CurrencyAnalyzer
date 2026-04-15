@@ -11,7 +11,7 @@ class MockRateClientTest {
     void testTimeframeRateResponse_parsesJsonCorrectly() {
         MockRateClient client = new MockRateClient();
 
-        TimeframeRateResponse response = client.getTimeframeRates("EUR");
+        TimeframeRateResponse response = client.getTimeframeRates("EUR", "2010-03-01", "2010-03-02");
 
         assertNotNull(response, "Response should not be null");
         assertTrue(response.isSuccess(), "Success should be true");

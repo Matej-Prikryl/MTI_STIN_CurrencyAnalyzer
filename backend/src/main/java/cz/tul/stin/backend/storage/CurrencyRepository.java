@@ -4,7 +4,11 @@ import cz.tul.stin.backend.model.TimeframeRateResponse;
 import cz.tul.stin.backend.service.RateClient;
 import org.springframework.stereotype.Repository;
 
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CurrencyRepository {
 
     private final RateClient rateClient;
+    private final Clock clock;
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     private static class CacheEntry {
         TreeMap<String, Map<String, Double>> rates = new TreeMap<>();
@@ -21,8 +27,9 @@ public class CurrencyRepository {
 
     private final Map<String, CacheEntry> cache = new ConcurrentHashMap<>();
 
-    public CurrencyRepository(RateClient rateClient) {
+    public CurrencyRepository(RateClient rateClient, Clock clock) {
         this.rateClient = rateClient;
+        this.clock = clock;
     }
 
     public Map<String, Double> getLatestRates(String base) {
@@ -35,16 +42,19 @@ public class CurrencyRepository {
         return entry.latestRates;
     }
 
-    public TreeMap<String, Map<String, Double>> getTimeframeRates(String base) {
+    public TreeMap<String, Map<String, Double>> getTimeframeRates(String base, String startDate, String endDate) {
         CacheEntry entry = getOrFetchCacheEntry(base);
-        return entry.rates;
+        SortedMap<String, Map<String, Double>> rates = entry.rates.subMap(startDate, true, endDate, true);
+        return new TreeMap<>(rates);
     }
 
     private CacheEntry getOrFetchCacheEntry(String base) {
         CacheEntry entry = cache.computeIfAbsent(base, k -> new CacheEntry());
 
         if (!entry.isUpToDate) {
-            TimeframeRateResponse response = rateClient.getTimeframeRates(base);
+            String endDate = LocalDate.now(clock).format(DATE_FORMATTER);
+            String startDate = LocalDate.now(clock).minusYears(1).format(DATE_FORMATTER);
+            TimeframeRateResponse response = rateClient.getTimeframeRates(base,  startDate, endDate);
 
             if (response != null && response.getQuotes() != null && !response.getQuotes().isEmpty()) {
                 entry.rates.clear();

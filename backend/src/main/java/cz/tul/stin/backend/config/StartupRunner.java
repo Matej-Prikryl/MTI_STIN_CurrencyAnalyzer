@@ -22,7 +22,7 @@ public class StartupRunner implements CommandLineRunner {
         System.out.println("Starting...");
         var client = new MockRateClient();
         calculator = new RateCalculatorService(client);
-        CurrencyInfo info = calculator.getCurrencyInfo("EUR");
+        CurrencyInfo info = calculator.getCurrencyInfo("EUR", "2010-03-01", "2010-03-02");
         System.out.printf("Strongest: %s (%f)%n", info.extremes().strongest().getKey() ,info.extremes().strongest().getValue());
         System.out.printf("Weakest: %s (%f)%n", info.extremes().weakest().getKey() ,info.extremes().weakest().getValue());
         System.out.println("Averages:");

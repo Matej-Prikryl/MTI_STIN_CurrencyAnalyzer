@@ -13,7 +13,7 @@ import java.util.Map;
 public class MockRateClient implements RateClient {
 
     @Override
-    public TimeframeRateResponse getTimeframeRates(String base) {
+    public TimeframeRateResponse getTimeframeRates(String base, String startDate, String endDate) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             InputStream is = getClass().getResourceAsStream("/mock-data/timeframe.json");

@@ -26,6 +26,8 @@ class RateCalculatorServiceTest {
     void testGetCurrencyInfo_Success() {
         // Prepare mock data
         String base = "EUR";
+        String startDate = "2010-03-01";
+        String endDate = "2010-03-02";
         TimeframeRateResponse response = new TimeframeRateResponse();
         
         // Mocking latest quotes for getExtremes
@@ -41,19 +43,19 @@ class RateCalculatorServiceTest {
         Map<String, Double> day1 = new HashMap<>();
         day1.put("USD", 1.0);
         day1.put("CZK", 24.0);
-        quotes.put("2026-01-01", day1);
+        quotes.put("2010-03-01", day1);
 
         Map<String, Double> day2 = new HashMap<>();
         day2.put("USD", 1.1);
         day2.put("CZK", 25.0);
-        quotes.put("2026-01-02", day2);
+        quotes.put("2010-03-02", day2);
 
         response.setQuotes(quotes);
 
-        when(rateClient.getTimeframeRates(base)).thenReturn(response);
+        when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(response);
 
         // Execute service
-        var result = rateCalculatorService.getCurrencyInfo(base);
+        var result = rateCalculatorService.getCurrencyInfo(base,  startDate, endDate);
 
         // Assertions for averages
         assertNotNull(result);
@@ -71,36 +73,42 @@ class RateCalculatorServiceTest {
     @Test
     void testGetCurrencyInfo_EmptyQuotesThrowsException() {
         String base = "EUR";
+        String startDate = "2010-03-01";
+        String endDate = "2010-03-02";
         TimeframeRateResponse response = new TimeframeRateResponse();
         response.setLatestQuotes(Map.of("USD", 1.0));
         response.setQuotes(new HashMap<>());
 
-        when(rateClient.getTimeframeRates(base)).thenReturn(response);
+        when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(response);
 
-        assertThrows(IllegalArgumentException.class, () -> rateCalculatorService.getCurrencyInfo(base));
+        assertThrows(IllegalArgumentException.class, () -> rateCalculatorService.getCurrencyInfo(base,   startDate, endDate));
     }
 
     @Test
     void testGetCurrencyInfo_EmptyLatestQuotesThrowsException() {
         String base = "EUR";
+        String startDate = "2010-03-01";
+        String endDate = "2010-03-02";
         TimeframeRateResponse response = new TimeframeRateResponse();
         response.setLatestQuotes(new HashMap<>());
         response.setQuotes(Map.of("2026-01-01", Map.of("USD", 1.0)));
 
-        when(rateClient.getTimeframeRates(base)).thenReturn(response);
+        when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(response);
 
-        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base));
+        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base, startDate, endDate));
     }
 
     @Test
     void testGetCurrencyInfo_NullLatestQuotesThrowsException() {
         String base = "EUR";
+        String startDate = "2010-03-01";
+        String endDate = "2010-03-02";
         TimeframeRateResponse response = new TimeframeRateResponse();
         response.setLatestQuotes(null);
         response.setQuotes(Map.of("2026-01-01", Map.of("USD", 1.0)));
 
-        when(rateClient.getTimeframeRates(base)).thenReturn(response);
+        when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(response);
 
-        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base));
+        assertThrows(RuntimeException.class, () -> rateCalculatorService.getCurrencyInfo(base,  startDate, endDate));
     }
 }
