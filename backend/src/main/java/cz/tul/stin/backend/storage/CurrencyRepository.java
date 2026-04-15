@@ -2,6 +2,7 @@ package cz.tul.stin.backend.storage;
 
 import cz.tul.stin.backend.model.TimeframeRateResponse;
 import cz.tul.stin.backend.service.RateClient;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 import java.time.Clock;
@@ -68,5 +69,12 @@ public class CurrencyRepository {
         }
 
         return entry;
+    }
+
+    @Scheduled(cron = "0 30 0 * * *")
+    public void invalidateCache() {
+        for (CacheEntry entry : cache.values()) {
+            entry.isUpToDate = false;
+        }
     }
 }

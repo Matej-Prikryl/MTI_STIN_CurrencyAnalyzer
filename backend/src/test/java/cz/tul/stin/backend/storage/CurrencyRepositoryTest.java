@@ -78,6 +78,32 @@ class CurrencyRepositoryTest {
     }
 
     @Test
+    void testInvalidateCache() {
+        String base = "EUR";
+        String startDate = "2010-01-01";
+        String endDate = "2011-01-01";
+        TimeframeRateResponse response = new TimeframeRateResponse();
+        Map<String, Map<String, Double>> quotes = new HashMap<>();
+        Map<String, Double> day1 = new HashMap<>();
+        day1.put("USD", 1.1);
+        quotes.put("2010-01-01", day1);
+        response.setQuotes(quotes);
+
+        when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(response);
+
+        // 1. Initial fetch (populates cache)
+        currencyRepository.getLatestRates(base);
+
+        // 2. Invalidate cache
+        currencyRepository.invalidateCache();
+
+        // 3. Second fetch (should trigger new API call)
+        currencyRepository.getLatestRates(base);
+
+        verify(rateClient, times(2)).getTimeframeRates(base, startDate, endDate);
+    }
+
+    @Test
     void testGetTimeframeRates_Success() {
         String base = "EUR";
         String startDate = "2010-01-01";
