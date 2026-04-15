@@ -33,7 +33,6 @@ build/
 .vscode/
 
 ### App specific ###
-DSP.txt
 settings.json
 rates_cache.json
 
