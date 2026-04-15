@@ -40,7 +40,7 @@ class CurrencyRepositoryTest {
         TimeframeRateResponse response = new TimeframeRateResponse();
         Map<String, Map<String, Double>> quotes = new HashMap<>();
         Map<String, Double> day1 = new HashMap<>();
-        day1.put("USD", 1.1);
+        day1.put("EURUSD", 1.1);
         quotes.put("2011-01-01", day1);
         response.setQuotes(quotes);
 

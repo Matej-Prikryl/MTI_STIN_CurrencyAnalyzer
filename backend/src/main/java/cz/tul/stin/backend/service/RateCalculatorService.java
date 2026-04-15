@@ -64,6 +64,10 @@ public class RateCalculatorService {
                 .filter(entry -> targetCurrencies.contains(entry.getKey()))
                 .toList();
 
+        if (filteredList.isEmpty()) {
+            throw new RuntimeException("Error: No rates in the filtered list.");
+        }
+
         Map.Entry<String, Double> strongest = filteredList.stream()
                 .min(Map.Entry.comparingByValue())
                 .orElseThrow();
