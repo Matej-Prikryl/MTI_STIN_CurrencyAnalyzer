@@ -4,7 +4,7 @@
   "privacy": "https://exchangerate.host/privacy",
   "timeframe": true,
   "start_date": "2010-03-01",
-  "end_date": "2010-04-01",
+  "end_date": "2010-03-02",
   "source": "EUR",
   "quotes": {
     "2010-03-01": {
