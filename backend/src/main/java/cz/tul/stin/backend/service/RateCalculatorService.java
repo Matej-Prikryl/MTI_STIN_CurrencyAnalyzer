@@ -3,37 +3,38 @@ package cz.tul.stin.backend.service;
 import cz.tul.stin.backend.model.CurrencyInfo;
 import cz.tul.stin.backend.model.CurrencyExtremes;
 import cz.tul.stin.backend.model.TimeframeRateResponse;
+import cz.tul.stin.backend.storage.CurrencyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class RateCalculatorService {
-    private final RateClient rateClient;
+    private final CurrencyRepository currencyRepository;
 
-    public RateCalculatorService(RateClient client) {
-        this.rateClient = client;
+    public RateCalculatorService(CurrencyRepository currencyRepository) {
+        this.currencyRepository = currencyRepository;
     }
 
     public CurrencyInfo getCurrencyInfo(String base, String startDate, String endDate) {
-        TimeframeRateResponse response = rateClient.getTimeframeRates(base, startDate, endDate);
-        var extremes = getExtremes(response);
-        var averages = getAverageRates(response);
+        var latestRates = currencyRepository.getLatestRates(base);
+        var rates = currencyRepository.getTimeframeRates(base, startDate, endDate);
+        var extremes = getExtremes(latestRates);
+        var averages = getAverageRates(rates);
         return new CurrencyInfo(extremes, averages);
     }
 
-    private Map<String, Double> getAverageRates(TimeframeRateResponse response) {
-        Map<String, Map<String, Double>> allRates = response.getQuotes();
-
-        if (allRates == null || allRates.isEmpty()) {
+    private Map<String, Double> getAverageRates(TreeMap<String, Map<String, Double>> rates) {
+        if (rates == null || rates.isEmpty()) {
             throw new IllegalArgumentException("No data available for the given timeframe.");
         }
 
         Map<String, Double> sums = new HashMap<>();
         Map<String, Integer> counts = new HashMap<>();
 
-        for (Map<String, Double> dailyRates : allRates.values()) {
+        for (Map<String, Double> dailyRates : rates.values()) {
             if (dailyRates == null) continue;
 
             for (Map.Entry<String, Double> entry : dailyRates.entrySet()) {
@@ -53,17 +54,16 @@ public class RateCalculatorService {
         return averages;
     }
 
-    private CurrencyExtremes getExtremes(TimeframeRateResponse response) {
-        var rates = response.getLatestQuotes();
-        if (rates == null || rates.isEmpty()) {
+    private CurrencyExtremes getExtremes(Map<String, Double> latestRates) {
+        if (latestRates == null || latestRates.isEmpty()) {
             throw new RuntimeException("Error: No rates to compare.");
         }
 
-        var strongest = rates.entrySet().stream()
+        var strongest = latestRates.entrySet().stream()
                 .min(Map.Entry.comparingByValue())
                 .get();
 
-        var weakest = rates.entrySet().stream()
+        var weakest = latestRates.entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .get();
 
