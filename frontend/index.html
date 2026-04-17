@@ -18,11 +18,12 @@
     <main class="bg-gray-200 w-screen p-8 mt-16 flex flex-col grow gap-16">
         <div class="bg-gray-600 flex w-full items-center p-4 gap-4">
             <div class="bg-gray-200 w-20 h-20">
+                <label for="base-currency" class="font-light text-xs">Base Currency</label>
                 <select name="Base Currency" id="base-currency"
-                class=" bg-gray-200 w-full h-full px-1 focus:outline-none">
-                    <option value="" class="bg-gray-200">EUR</option>
-                    <option value="" class="bg-gray-200">CZK</option>
-                    <option value="" class="bg-gray-200">USD</option>
+                class="dropdown [&_option::checkmark]:hidden">
+                    <option value="">EUR</option>
+                    <option value="">CZK</option>
+                    <option value="">USD</option>
                 </select>
             </div>
             <div class="bg-gray-200 w-20 h-20"></div>
