@@ -1,1 +1,24 @@
 @import "tailwindcss";
+
+
+@layer components {
+    .dropdown {
+        @apply bg-gray-200 w-full h-max px-2 py-1 rounded-md focus:outline-none;
+        appearance: none;
+    }
+
+    @supports (appearance: base-select) {
+        .dropdown,
+        .dropdown::picker(select) {
+            appearance: base-select;
+        }
+    }
+
+    .dropdown::picker(select) {
+        @apply bg-gray-200 border-none rounded-md mt-2 p-1 shadow-xl shadow-black/10;
+    }
+
+    .dropdown option {
+        @apply px-1 py-0.5 rounded-md hover:bg-white focus:bg-white;
+    }
+}
