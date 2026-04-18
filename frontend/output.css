@@ -195,9 +195,6 @@
   .flex {
     display: flex;
   }
-  .table {
-    display: table;
-  }
   .h-5 {
     height: calc(var(--spacing) * 5);
   }
@@ -225,17 +222,8 @@
   .w-screen {
     width: 100vw;
   }
-  .flex-grow {
-    flex-grow: 1;
-  }
   .grow {
     flex-grow: 1;
-  }
-  .border-collapse {
-    border-collapse: collapse;
-  }
-  .resize {
-    resize: both;
   }
   .flex-col {
     flex-direction: column;
@@ -260,10 +248,6 @@
   }
   .rounded-full {
     border-radius: calc(infinity * 1px);
-  }
-  .border {
-    border-style: var(--tw-border-style);
-    border-width: 1px;
   }
   .bg-amber-400 {
     background-color: var(--color-amber-400);
@@ -303,13 +287,6 @@
   }
   .text-gray-600 {
     color: var(--color-gray-600);
-  }
-  .underline {
-    text-decoration-line: underline;
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
   }
   .\[\&_option\:\:checkmark\]\:hidden {
     & option::checkmark {
@@ -376,19 +353,40 @@
     }
   }
 }
-@property --tw-border-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
+.flatpickr-calendar {
+  font-family: inherit !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
+  padding: 2rem !important;
+  width: max-content !important;
+}
+.flatpickr-day.today {
+  border-color: #fbbf24 !important;
+}
+.flatpickr-day:hover {
+  background: #e5e7eb !important;
+  border-color: #e5e7eb !important;
+}
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+  background: #fbbf24 !important;
+  border-color: #fbbf24 !important;
+  color: #1f2937 !important;
+}
+.flatpickr-current-month {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: start !important;
+  gap: 2rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+.flatpickr-monthDropdown-months {
+  margin: 0 !important;
 }
 @property --tw-font-weight {
   syntax: "*";
   inherits: false;
-}
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
 }
 @property --tw-shadow {
   syntax: "*";
@@ -458,9 +456,7 @@
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
-      --tw-border-style: solid;
       --tw-font-weight: initial;
-      --tw-outline-style: solid;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
       --tw-shadow-alpha: 100%;
