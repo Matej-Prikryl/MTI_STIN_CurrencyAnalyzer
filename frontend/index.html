@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <title>Currency Analyzer</title>
 </head>
 
 <body class="flex flex-col min-h-screen">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/cs.js"></script>
+    
     <header class="bg-gray-200 w-screen p-4 flex justify-between items-center sticky top-0">
         <p class="font-semibold ml-4 text-gray-600">Currency Analyzer</p>
         <div class="bg-gray-600 w-5 h-5"></div>
@@ -17,7 +21,7 @@
 
     <main class="bg-gray-200 w-screen p-8 mt-16 flex flex-col grow gap-16">
         <div class="bg-gray-600 flex w-full items-center p-4 gap-4">
-            <div class="bg-gray-200 w-20 h-20">
+            <div class="bg-gray-200 w-max h-20">
                 <label for="base-currency" class="font-light text-xs">Base Currency</label>
                 <select name="Base Currency" id="base-currency"
                 class="dropdown [&_option::checkmark]:hidden">
@@ -26,8 +30,14 @@
                     <option value="">USD</option>
                 </select>
             </div>
-            <div class="bg-gray-200 w-20 h-20"></div>
-            <div class="bg-gray-200 w-20 h-20"></div>
+            <div class="bg-gray-200 w-max h-20">
+                <label for="start-date" class="font-light text-xs">From</label>
+                <input type="text" id="start-date" placeholder="Select start date" class="datepicker">
+            </div>
+            <div class="bg-gray-200 w-max h-20">
+                <label for="end-date" class="font-light text-xs">To</label>
+                <input type="text" id="end-date" placeholder="Select end date" class="datepicker">
+            </div>
             <button class="bg-gray-200 py-2 px-4 rounded-full">Calculate</button>
         </div>
 
@@ -49,6 +59,8 @@
     <footer class="bg-gray-200 p-4 mt-4">
         <p class="text-center">footer</p>
     </footer>
+
+    <script src="app.js"></script>
 </body>
 
 </html>

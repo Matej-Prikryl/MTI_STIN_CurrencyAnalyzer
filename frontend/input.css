@@ -21,4 +21,67 @@
     .dropdown option {
         @apply px-1 py-0.5 rounded-md hover:bg-white focus:bg-white;
     }
+
+    .datepicker {
+        @apply bg-gray-200 w-full h-max px-2 py-1 rounded-md focus:outline-none;
+    }
+}
+
+.flatpickr-calendar {
+    font-family: inherit !important; /* Převezme font vaší stránky */
+    border-radius: 0.5rem !important; /* Zaoblení odpovídající rounded-md */
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important; /* Tailwind shadow-lg */
+    padding: 2rem !important; /* Odpovídá p-4 */
+    width: max-content !important; /* Plná šířka pro lepší responsivitu */
+}
+
+/* 2. Dnešní den (neoznačený) - rámeček */
+.flatpickr-day.today {
+    border-color: #fbbf24 !important; /* barva border-amber-400 */
+}
+
+/* 3. Efekt přejetí myší přes běžný den */
+.flatpickr-day:hover {
+    background: #e5e7eb !important; /* bg-gray-200 */
+    border-color: #e5e7eb !important;
+}
+
+/* 4. TOTO JE MAGIE PRO VYBRANÝ DEN (Start, Konec i běžný klik) */
+/* Vypadá to jako hodně kódu, ale Flatpickr má mnoho stavů pro vybraná data */
+.flatpickr-day.selected, 
+.flatpickr-day.startRange, 
+.flatpickr-day.endRange, 
+.flatpickr-day.selected.inRange, 
+.flatpickr-day.startRange.inRange, 
+.flatpickr-day.endRange.inRange, 
+.flatpickr-day.selected:focus, 
+.flatpickr-day.startRange:focus, 
+.flatpickr-day.endRange:focus, 
+.flatpickr-day.selected:hover, 
+.flatpickr-day.startRange:hover, 
+.flatpickr-day.endRange:hover, 
+.flatpickr-day.selected.prevMonthDay, 
+.flatpickr-day.startRange.prevMonthDay, 
+.flatpickr-day.endRange.prevMonthDay, 
+.flatpickr-day.selected.nextMonthDay, 
+.flatpickr-day.startRange.nextMonthDay, 
+.flatpickr-day.endRange.nextMonthDay {
+    background: #fbbf24 !important; /* Vaše bg-amber-400 */
+    border-color: #fbbf24 !important;
+    color: #1f2937 !important; /* Tmavý text text-gray-800 pro dobrou čitelnost na žluté */
+}
+
+.flatpickr-current-month {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: start !important;
+    gap: 2rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+/* 2. Zrušíme případné tvrdé okraje z originálního Flatpickr CSS */
+.flatpickr-monthDropdown-months {
+    margin: 0 !important;
 }

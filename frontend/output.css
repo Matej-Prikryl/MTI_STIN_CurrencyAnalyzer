@@ -174,6 +174,12 @@
   .sticky {
     position: sticky;
   }
+  .start {
+    inset-inline-start: var(--spacing);
+  }
+  .end {
+    inset-inline-end: var(--spacing);
+  }
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
@@ -204,14 +210,14 @@
   .w-5 {
     width: calc(var(--spacing) * 5);
   }
-  .w-20 {
-    width: calc(var(--spacing) * 20);
-  }
   .w-40 {
     width: calc(var(--spacing) * 40);
   }
   .w-full {
     width: 100%;
+  }
+  .w-max {
+    width: max-content;
   }
   .w-screen {
     width: 100vw;
@@ -334,6 +340,49 @@
       background-color: var(--color-white);
     }
   }
+  .datepicker {
+    height: max-content;
+    width: 100%;
+    border-radius: var(--radius-md);
+    background-color: var(--color-gray-200);
+    padding-inline: calc(var(--spacing) * 2);
+    padding-block: calc(var(--spacing) * 1);
+    &:focus {
+      --tw-outline-style: none;
+      outline-style: none;
+    }
+  }
+}
+.flatpickr-calendar {
+  font-family: inherit !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important;
+  padding: 2rem !important;
+  width: max-content !important;
+}
+.flatpickr-day.today {
+  border-color: #fbbf24 !important;
+}
+.flatpickr-day:hover {
+  background: #e5e7eb !important;
+  border-color: #e5e7eb !important;
+}
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+  background: #fbbf24 !important;
+  border-color: #fbbf24 !important;
+  color: #1f2937 !important;
+}
+.flatpickr-current-month {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: start !important;
+  gap: 2rem !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100% !important;
+}
+.flatpickr-monthDropdown-months {
+  margin: 0 !important;
 }
 @property --tw-font-weight {
   syntax: "*";
