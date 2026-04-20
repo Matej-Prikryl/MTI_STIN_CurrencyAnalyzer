@@ -25,6 +25,18 @@
     .datepicker {
         @apply bg-gray-200 w-full h-max px-2 py-1 rounded-md focus:outline-none;
     }
+
+    .currency-extreme-display {
+        @apply bg-black w-40 h-40 rounded-2xl p-4 text-white uppercase text-center relative;
+    }
+
+    .currency-extreme-display label {
+        @apply text-xs text-left absolute top-2 left-4;
+    }
+
+    .currency-extreme-display h1 {
+        @apply text-4xl font-bold mt-8 mb-1;
+    }
 }
 
 .flatpickr-calendar {
