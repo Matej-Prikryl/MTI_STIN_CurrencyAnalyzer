@@ -4,7 +4,7 @@ const weakestCurrencyDisplay = document.getElementById('weakest-currency');
 const resultsBody = document.getElementById('results-body');
 
 calculateBtn.addEventListener('click', async () => {
-    const baseCurrency = document.getElementById('base-currency').value;
+        const baseCurrency = document.getElementById('base-currency').value;
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
 
@@ -14,8 +14,20 @@ calculateBtn.addEventListener('click', async () => {
 
     try {
         const response = await fetch(url);
+
+        if (response.redirected) {
+            window.location.href = response.url;
+            return;
+        }
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ message: "Unknown Server Error" }));
+            
+            alert(`Error (${response.status}): ${errorData.message || 'Unable to fetch data. Please try again later.'}`);
+            return;
+        }
+
         const data = await response.json();
-        console.log(data);
 
         strongestCurrencyDisplay.querySelector('h1').textContent = data.extremes.strongest.key;
         strongestCurrencyDisplay.querySelector('p').textContent = data.extremes.strongest.value.toFixed(2);
@@ -37,9 +49,9 @@ calculateBtn.addEventListener('click', async () => {
         });
 
     } catch (error) {
-        console.error('Error fetching currency rates:', error);
+        console.error('Network or JS Error:', error);
+        alert('Unable to connect to server.');
     }
-
 });
 
 
