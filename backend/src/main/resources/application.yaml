@@ -3,3 +3,6 @@ spring:
     name: backend
   profiles:
     active: dev
+  web:
+    resources:
+      static-locations: "file:./frontend/,classpath:/static/"

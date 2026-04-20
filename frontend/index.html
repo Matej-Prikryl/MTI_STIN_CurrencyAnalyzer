@@ -25,9 +25,9 @@
                 <label for="base-currency" class="font-light text-xs w-max">Base Currency</label>
                 <select name="Base Currency" id="base-currency"
                 class="dropdown [&_option::checkmark]:hidden">
-                    <option value="">EUR</option>
-                    <option value="">CZK</option>
-                    <option value="">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="CZK">CZK</option>
+                    <option value="USD">USD</option>
                 </select>
             </div>
             <div class="w-36 h-20">
@@ -40,19 +40,19 @@
             </div>
         </div>
 
-        <button class="bg-indigo-600 text-white text-xl font-semibold py-2 px-4 rounded-full w-max hover:bg-indigo-500 cursor-pointer active:bg-indigo-400">Calculate</button>
+        <button id="calculate-btn" class="bg-indigo-600 text-white text-xl font-semibold py-2 px-4 rounded-full w-max hover:bg-indigo-500 cursor-pointer active:bg-indigo-400">Calculate</button>
 
         <div class="flex flex-col max-w-4xl p-4 gap-8 mt-12">
             <div class="flex gap-8 w-full justify-center">
-                <div class="currency-extreme-display">
-                    <label for="strongest-currency">Strongest</label>
-                    <h1 id="strongest-currency">GBP</h1>
-                    <p>0.85</p>
+                <div id="strongest-currency" class="currency-extreme-display">
+                    <label>Strongest</label>
+                    <h1>--</h1>
+                    <p>0.00</p>
                 </div>
-                <div class="currency-extreme-display">
-                    <label for="weakest-currency">Weakest</label>
-                    <h1 id="weakest-currency">CZK</h1>
-                    <p>24.75</p>
+                <div id="weakest-currency" class="currency-extreme-display">
+                    <label>Weakest</label>
+                    <h1>--</h1>
+                    <p>0.00</p>
                 </div>
             </div>
             <table class="rates-table">
@@ -62,18 +62,10 @@
                         <th class="rounded-tr-2xl">Average Rate</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="results-body">
                     <tr>
-                        <td>USD</td>
-                        <td>1.12</td>
-                    </tr>
-                    <tr>
-                        <td>GBP</td>
-                        <td>0.85</td>
-                    </tr>
-                    <tr>
-                        <td>CZK</td>
-                        <td>24.75</td>
+                        <td>--</td>
+                        <td>0.00</td>
                     </tr>
                 </tbody>
             </table>

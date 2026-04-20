@@ -27,6 +27,7 @@ public class StartupRunner implements CommandLineRunner {
     @Override
     public void run(String @NonNull ... args) throws Exception {
         System.out.println("Starting...");
+        System.out.println("Working folder: " + System.getProperty("user.dir"));
 
         var client = new MockRateClient();
         Clock clock = Clock.fixed(Instant.parse("2011-01-01T10:00:00Z"), ZoneId.of("UTC"));
