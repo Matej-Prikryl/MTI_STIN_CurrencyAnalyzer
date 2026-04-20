@@ -37,6 +37,30 @@
     .currency-extreme-display h1 {
         @apply text-4xl font-bold mt-8 mb-1;
     }
+
+    .rates-table {
+        @apply bg-gray-200 rounded-2xl;
+    }
+
+    .rates-table th {
+        @apply bg-indigo-600 text-white text-left px-4 py-2;
+    }
+
+    .rates-table tbody tr:hover {
+        @apply bg-gray-300;
+    }
+
+    .rates-table tbody tr:last-child td:first-child {
+        @apply rounded-bl-2xl;
+    }
+
+    .rates-table tbody tr:last-child td:last-child {
+        @apply rounded-br-2xl;
+    }
+
+    .rates-table td {
+        @apply px-4 py-2;
+    }
 }
 
 .flatpickr-calendar {

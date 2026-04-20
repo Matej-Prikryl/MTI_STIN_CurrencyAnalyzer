@@ -42,8 +42,8 @@
 
         <button class="bg-indigo-600 text-white text-xl font-semibold py-2 px-4 rounded-full w-max hover:bg-indigo-500 cursor-pointer active:bg-indigo-400">Calculate</button>
 
-        <div class="bg-gray-600 flex flex-col w-full p-4 gap-8 mt-12">
-            <div class="flex gap-8 bg-gray-200 w-full justify-center">
+        <div class="flex flex-col max-w-4xl p-4 gap-8 mt-12">
+            <div class="flex gap-8 w-full justify-center">
                 <div class="currency-extreme-display">
                     <label for="strongest-currency">Strongest</label>
                     <h1 id="strongest-currency">GBP</h1>
@@ -55,11 +55,27 @@
                     <p>24.75</p>
                 </div>
             </div>
-            <table class="bg-gray-200">
-                <th>
-                    <td>Currency</td>
-                    <td>Average Rate</td>
-                </th>
+            <table class="rates-table">
+                <thead>
+                    <tr>
+                        <th class="rounded-tl-2xl">Currency</th>
+                        <th class="rounded-tr-2xl">Average Rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>USD</td>
+                        <td>1.12</td>
+                    </tr>
+                    <tr>
+                        <td>GBP</td>
+                        <td>0.85</td>
+                    </tr>
+                    <tr>
+                        <td>CZK</td>
+                        <td>24.75</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </main>
