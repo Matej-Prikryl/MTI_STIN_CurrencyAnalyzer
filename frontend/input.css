@@ -3,7 +3,7 @@
 
 @layer components {
     .dropdown {
-        @apply bg-gray-200 w-full h-max px-2 py-1 rounded-md focus:outline-none;
+        @apply bg-gray-200 w-24 h-max px-2 py-1 rounded-md focus:outline-none;
         appearance: none;
     }
 
@@ -19,7 +19,7 @@
     }
 
     .dropdown option {
-        @apply px-1 py-0.5 rounded-md hover:bg-white focus:bg-white;
+        @apply mt-1 px-1 py-0.5 rounded-md hover:bg-white focus:bg-indigo-600 focus:text-white;
     }
 
     .datepicker {
@@ -37,7 +37,7 @@
 
 /* 2. Dnešní den (neoznačený) - rámeček */
 .flatpickr-day.today {
-    border-color: #fbbf24 !important; /* barva border-amber-400 */
+    border-color: #4f39f6 !important; /* barva border-amber-400 */
 }
 
 /* 3. Efekt přejetí myší přes běžný den */
@@ -66,9 +66,9 @@
 .flatpickr-day.selected.nextMonthDay, 
 .flatpickr-day.startRange.nextMonthDay, 
 .flatpickr-day.endRange.nextMonthDay {
-    background: #fbbf24 !important; /* Vaše bg-amber-400 */
-    border-color: #fbbf24 !important;
-    color: #1f2937 !important; /* Tmavý text text-gray-800 pro dobrou čitelnost na žluté */
+    background: #4f39f6 !important; /* Vaše bg-amber-400 */
+    border-color: #4f39f6 !important;
+    color: #ffffff !important; /* Tmavý text text-gray-800 pro dobrou čitelnost na žluté */
 }
 
 .flatpickr-current-month {
