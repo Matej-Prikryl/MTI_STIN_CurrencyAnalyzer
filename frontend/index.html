@@ -25,9 +25,9 @@
                 <label for="base-currency" class="font-light text-xs w-max">Base Currency</label>
                 <select name="Base Currency" id="base-currency"
                 class="dropdown [&_option::checkmark]:hidden">
-                    <option value="">EUR</option>
-                    <option value="">CZK</option>
-                    <option value="">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="CZK">CZK</option>
+                    <option value="USD">USD</option>
                 </select>
             </div>
             <div class="w-36 h-20">
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <button class="bg-indigo-600 text-white text-xl font-semibold py-2 px-4 rounded-full w-max hover:bg-indigo-500 cursor-pointer active:bg-indigo-400">Calculate</button>
+        <button id="calculate-btn" class="bg-indigo-600 text-white text-xl font-semibold py-2 px-4 rounded-full w-max hover:bg-indigo-500 cursor-pointer active:bg-indigo-400">Calculate</button>
 
         <div class="flex flex-col max-w-4xl p-4 gap-8 mt-12">
             <div class="flex gap-8 w-full justify-center">

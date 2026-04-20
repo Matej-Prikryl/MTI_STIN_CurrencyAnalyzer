@@ -240,17 +240,8 @@
   .w-screen {
     width: 100vw;
   }
-  .max-w-2xl {
-    max-width: var(--container-2xl);
-  }
-  .max-w-4 {
-    max-width: calc(var(--spacing) * 4);
-  }
   .max-w-4xl {
     max-width: var(--container-4xl);
-  }
-  .max-w-xl {
-    max-width: var(--container-xl);
   }
   .flex-grow {
     flex-grow: 1;
