@@ -19,10 +19,10 @@
     </header>
 
 
-    <main class="bg-gray-200 w-screen p-8 mt-16 flex flex-col grow gap-16">
-        <div class="bg-gray-600 flex w-full items-center p-4 gap-4">
-            <div class="bg-gray-200 w-max h-20">
-                <label for="base-currency" class="font-light text-xs">Base Currency</label>
+    <main class="w-screen p-8 mt-16 flex flex-col items-center grow gap-4">
+        <div class=" flex w-full items-center gap-8 justify-center">
+            <div class="w-24 h-20">
+                <label for="base-currency" class="font-light text-xs w-max">Base Currency</label>
                 <select name="Base Currency" id="base-currency"
                 class="dropdown [&_option::checkmark]:hidden">
                     <option value="">EUR</option>
@@ -30,18 +30,19 @@
                     <option value="">USD</option>
                 </select>
             </div>
-            <div class="bg-gray-200 w-max h-20">
+            <div class="w-36 h-20">
                 <label for="start-date" class="font-light text-xs">From</label>
                 <input type="text" id="start-date" placeholder="Select start date" class="datepicker">
             </div>
-            <div class="bg-gray-200 w-max h-20">
+            <div class="w-36 h-20">
                 <label for="end-date" class="font-light text-xs">To</label>
                 <input type="text" id="end-date" placeholder="Select end date" class="datepicker">
             </div>
-            <button class="bg-gray-200 py-2 px-4 rounded-full">Calculate</button>
         </div>
 
-        <div class="bg-gray-600 flex flex-col w-full p-4 gap-8">
+        <button class="bg-indigo-600 text-white text-xl font-semibold py-2 px-4 rounded-full w-max hover:bg-indigo-500 cursor-pointer active:bg-indigo-400">Calculate</button>
+
+        <div class="bg-gray-600 flex flex-col w-full p-4 gap-8 mt-12">
             <div class="flex gap-8 bg-gray-200 w-full justify-center">
                 <div class="bg-amber-400 w-40 h-40"></div>
                 <div class="bg-amber-400 w-40 h-40"></div>
