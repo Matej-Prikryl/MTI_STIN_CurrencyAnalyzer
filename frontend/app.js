@@ -54,7 +54,6 @@ calculateBtn.addEventListener('click', async () => {
     }
 });
 
-
 document.addEventListener('DOMContentLoaded', () => {
 
     const dateConfig = {

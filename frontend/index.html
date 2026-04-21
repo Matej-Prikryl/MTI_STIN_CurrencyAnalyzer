@@ -6,15 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <title>Currency Analyzer</title>
+    <script src="translations.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/cs.js"></script>
+    <title data-i18n="app-title">Currency Analyzer</title>
 </head>
 
 <body class="flex flex-col min-h-screen">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/cs.js"></script>
-    
+
     <header class="bg-gray-200 w-screen p-4 flex justify-between items-center sticky top-0">
-        <p class="font-semibold ml-4 text-gray-600">Currency Analyzer</p>
+        <p data-i18n="app-title" class="font-semibold ml-4 text-gray-600">Currency Analyzer</p>
         <div class="bg-gray-600 w-5 h-5"></div>
     </header>
 
@@ -22,7 +23,7 @@
     <main class="w-screen p-8 mt-16 flex flex-col items-center grow gap-4">
         <div class=" flex w-full items-center gap-8 justify-center">
             <div class="w-24 h-20">
-                <label for="base-currency" class="font-light text-xs w-max">Base Currency</label>
+                <label data-i18n="base-currency" for="base-currency" class="font-light text-xs w-max">Base Currency</label>
                 <select name="Base Currency" id="base-currency"
                 class="dropdown [&_option::checkmark]:hidden">
                     <option value="EUR">EUR</option>
@@ -31,26 +32,26 @@
                 </select>
             </div>
             <div class="w-36 h-20">
-                <label for="start-date" class="font-light text-xs">From</label>
+                <label data-i18n="start-date" for="start-date" class="font-light text-xs">From</label>
                 <input type="text" id="start-date" placeholder="Select start date" class="datepicker">
             </div>
             <div class="w-36 h-20">
-                <label for="end-date" class="font-light text-xs">To</label>
+                <label data-i18n="end-date" for="end-date" class="font-light text-xs">To</label>
                 <input type="text" id="end-date" placeholder="Select end date" class="datepicker">
             </div>
         </div>
 
-        <button id="calculate-btn" class="bg-indigo-600 text-white text-xl font-semibold py-2 px-4 rounded-full w-max hover:bg-indigo-500 cursor-pointer active:bg-indigo-400">Calculate</button>
+        <button data-i18n="calculate-btn" id="calculate-btn" class="bg-indigo-600 text-white text-xl font-semibold py-2 px-4 rounded-full w-max hover:bg-indigo-500 cursor-pointer active:bg-indigo-400">Calculate</button>
 
         <div class="flex flex-col max-w-4xl p-4 gap-8 mt-12">
             <div class="flex gap-8 w-full justify-center">
                 <div id="strongest-currency" class="currency-extreme-display">
-                    <label>Strongest</label>
+                    <label data-i18n="strongest-currency">Strongest</label>
                     <h1>--</h1>
                     <p>0.00</p>
                 </div>
                 <div id="weakest-currency" class="currency-extreme-display">
-                    <label>Weakest</label>
+                    <label data-i18n="weakest-currency">Weakest</label>
                     <h1>--</h1>
                     <p>0.00</p>
                 </div>
@@ -58,8 +59,8 @@
             <table class="rates-table">
                 <thead>
                     <tr>
-                        <th class="rounded-tl-2xl">Currency</th>
-                        <th class="rounded-tr-2xl">Average Rate</th>
+                        <th data-i18n="currency" class="rounded-tl-2xl">Currency</th>
+                        <th data-i18n="average-rate" class="rounded-tr-2xl">Average Rate</th>
                     </tr>
                 </thead>
                 <tbody id="results-body">

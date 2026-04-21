@@ -5,22 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="./output.css" rel="stylesheet">
-    <title>Document</title>
+    <script src="translations.js"></script>
+    <title data-i18n="login-title">Log In</title>
 </head>
 
 <body class="bg-gray-200 flex items-center justify-center h-screen">
     <div class="bg-white p-8 rounded-2xl shadow-md w-96">
-        <h2 class="text-2xl font-bold mb-6 text-gray-800">Log In</h2>
+        <h2  data-i18n="login-title" class="text-2xl font-bold mb-6 text-gray-800">Log In</h2>
         <form action="/login" method="POST" class="space-y-4">
             <div>
-                <label class="block text-sm font-medium text-gray-700">Username</label>
+                <label data-i18n="login-username" class="block text-sm font-medium text-gray-700">Username</label>
                 <input type="text" name="username" class="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-indigo-500">
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700">Password</label>
+                <label  data-i18n="login-password" class="block text-sm font-medium text-gray-700">Password</label>
                 <input type="password" name="password" class="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             </div>
-            <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-full font-bold hover:bg-indigo-500 mt-8">
+            <button data-i18n="login-button" type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-full font-bold hover:bg-indigo-500 mt-8">
                 Log In
             </button>
         </form>
