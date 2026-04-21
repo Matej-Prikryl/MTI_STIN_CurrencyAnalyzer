@@ -16,3 +16,4 @@ logging:
   level:
     root: WARN
     cz.tul.stin.backend: WARN
+    org.springframework.web: WARN

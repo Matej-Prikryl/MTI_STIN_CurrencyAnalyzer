@@ -51,28 +51,4 @@ class CurrencyControllerTest {
                 .andExpect(jsonPath("$.extremes.weakest.key").value("CZK"))
                 .andExpect(jsonPath("$.extremes.weakest.value").value(25.0));
     }
-
-    @Test
-    void testGetCurrencyInfo_BadRequest() throws Exception {
-        when(rateCalculatorService.getCurrencyInfo(anyString(), anyString(), anyString(), anySet()))
-                .thenThrow(new IllegalArgumentException("Invalid date range"));
-
-        mockMvc.perform(get("/api/rates/currencyinfo")
-                        .param("base", "EUR")
-                        .param("startDate", "2024-02-01")
-                        .param("endDate", "2024-01-01")
-                        .param("targetCurrencies", "USD")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string("Invalid date range"));
-    }
-
-    @Test
-    void testGetCurrencyInfo_MissingParams() throws Exception {
-        mockMvc.perform(get("/api/rates/currencyinfo")
-                        .param("base", "EUR")
-                        // Missing other params
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-    }
 }

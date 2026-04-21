@@ -26,9 +26,4 @@ public class CurrencyController {
         CurrencyInfo info = rateCalculatorService.getCurrencyInfo(base, startDate, endDate, targetCurrencies);
         return ResponseEntity.ok(info);
     }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleBadRequest(IllegalArgumentException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
-    }
 }
