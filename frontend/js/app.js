@@ -110,9 +110,9 @@ async function loadSettings() {
         }
 
         const settings = await response.json();
-        console.log(settings);
 
         // Apply settings to the UI
+        changeLanguage(settings.language);
         document.querySelector(`.lang-select input[value="${settings.language}"]`).checked = true;
         document.getElementById('base-currency').value = settings.baseCurrency;
         document.querySelectorAll('.preferred-currencies-selector input').forEach((checkbox) => {
@@ -127,6 +127,8 @@ async function saveSettings() {
     const language = document.querySelector('.lang-select input:checked').value;
     const baseCurrency = document.getElementById('base-currency').value;
     const preferredCurrencies = Array.from(document.querySelectorAll('.preferred-currencies-selector input:checked')).map(input => input.value);
+
+    changeLanguage(language);
 
     const settings = {
         language,

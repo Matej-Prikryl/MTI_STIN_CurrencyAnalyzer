@@ -33,8 +33,6 @@ const translations = {
     }
 };
 
-let currentLang = 'en'; //localStorage.getItem('lang') || 'cs';
-
 function changeLanguage(lang) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
