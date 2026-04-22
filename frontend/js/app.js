@@ -1,5 +1,6 @@
 // API Endpoints
 const API = {
+    CURRENCIES: '/api/rates/supported-currencies',
     RATES: '/api/rates/currencyinfo',
     SETTINGS: '/api/settings'
 };
@@ -26,9 +27,43 @@ let currentTargetCurrencies = ['USD', 'GBP', 'CZK'];
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
+    loadSupportedCurrencies();
     loadSettings();
     initDatePickers();
     setupEventListeners();
+}
+
+async function loadSupportedCurrencies() {
+    try {
+        const response = await fetch(`${API.CURRENCIES}`);
+        const currencies = await response.json();
+        const dropdown = elements.baseCurrency;
+        const container = document.querySelector('.preferred-currencies-selector');
+
+        currencies.forEach(currency => {
+            const id = `currency-${currency}`;
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = id;
+            checkbox.name = 'currency';
+            checkbox.value = currency;
+            checkbox.checked = currentTargetCurrencies.includes(currency);
+            container.appendChild(checkbox);
+
+            const label = document.createElement('label');
+            label.htmlFor = id;
+            label.textContent = currency;
+            container.appendChild(label);
+
+            const option = document.createElement('option');
+            option.value = currency;
+            option.textContent = currency;
+            dropdown.appendChild(option);
+        });
+
+    } catch (error) {
+        console.error('Error fetching supported currencies:', error);
+    }
 }
 
 function initDatePickers(lang = currentLang) {

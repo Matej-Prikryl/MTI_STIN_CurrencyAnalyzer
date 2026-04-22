@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
+import java.util.TreeSet;
 
 @RestController
 @RequestMapping("/api/rates")
@@ -28,8 +29,8 @@ public class CurrencyController {
         return ResponseEntity.ok(info);
     }
 
-    @GetMapping("/supportedcurrencies")
+    @GetMapping("/supported-currencies")
     public ResponseEntity<Set<String>> getSupportedCurrencies() {
-        return ResponseEntity.ok(SupportedCurrenciesConfig.SUPPORTED_CURRENCIES);
+        return ResponseEntity.ok(new TreeSet<>(SupportedCurrenciesConfig.SUPPORTED_CURRENCIES));
     }
 }

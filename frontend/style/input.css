@@ -15,7 +15,7 @@
     }
 
     .dropdown::picker(select) {
-        @apply bg-gray-200 border-none rounded-md mt-2 p-1 shadow-xl shadow-black/10;
+        @apply bg-gray-200 border-none rounded-md mt-2 p-1 shadow-xl shadow-black/10 max-h-80;
     }
 
     .dropdown option {
@@ -27,7 +27,7 @@
     }
 
     .currency-extreme-display {
-        @apply bg-black w-40 h-40 rounded-2xl p-4 text-white uppercase text-center relative;
+        @apply bg-black w-40 h-40 rounded-2xl p-4 text-white uppercase text-center relative z-0;
     }
 
     .currency-extreme-display label {
@@ -75,7 +75,7 @@
     }
 
     .preferred-currencies-selector label {
-        @apply cursor-pointer px-2 py-1 rounded-md border-2 border-transparent hover:border-gray-400 text-sm;
+        @apply cursor-pointer w-11 text-center px-2 py-1 rounded-md border-2 border-gray-300 hover:border-gray-400 text-sm;
     }
 
     .preferred-currencies-selector input:checked + label {
