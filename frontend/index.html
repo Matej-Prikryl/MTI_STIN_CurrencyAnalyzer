@@ -28,7 +28,7 @@
             class="w-screen h-screen bg-white/80 absolute top-0 z-2 items-center justify-center flex">
             <div class="bg-gray-200 w-80 h-80 z-3 p-8 rounded-2xl shadow-2xl">
                 <h1 data-i18n="settings" class="text-center font-semibold text-2xl mb-4">Settings</h1>
-                <div>
+                <div class="border-b border-gray-400 pb-2">
                     <p data-i18n="language" class="mb-2">Language:</p>
                     <div class="lang-select flex gap-4">
                         <input type="radio" id="english" name="language" value="en" checked>
@@ -42,13 +42,15 @@
                     </div>
                 </div>
                 <div class="mt-4">
-                    <p data-i18n="prefered-currencies">Prefered Currencies:</p>
-                    <input type="checkbox" id="eur" name="currency" value="EUR" checked>
-                    <label for="eur">EUR</label>
-                    <input type="checkbox" id="czk" name="currency" value="CZK" class="ml-4">
-                    <label for="czk">CZK</label>
-                    <input type="checkbox" id="usd" name="currency" value="USD" class="ml-4">
-                    <label for="usd">USD</label>
+                    <p data-i18n="preferred-currencies" class="mb-2">Preferred Currencies:</p>
+                    <div class="preferred-currencies-selector flex gap-2">
+                        <input type="checkbox" id="eur" name="currency" value="EUR" checked>
+                        <label for="eur">EUR</label>
+                        <input type="checkbox" id="czk" name="currency" value="CZK" class="ml-4">
+                        <label for="czk">CZK</label>
+                        <input type="checkbox" id="usd" name="currency" value="USD" class="ml-4">
+                        <label for="usd">USD</label>
+                    </div>
                 </div>
             </div>
         </div>
