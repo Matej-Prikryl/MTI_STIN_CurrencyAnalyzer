@@ -31,9 +31,9 @@ async function init() {
     setupEventListeners();
 }
 
-function initDatePickers() {
+function initDatePickers(lang = currentLang) {
     const dateConfig = {
-        locale: currentLang,
+        locale: lang,
         dateFormat: 'Y-m-d',
         maxDate: 'today',
         disableMobile: 'true'
@@ -158,7 +158,6 @@ async function loadSettings() {
 
 function applySettings(settings) {
     changeLanguage(settings.language);
-    currentLang = settings.language;
     
     const langRadio = document.querySelector(`.lang-select input[value="${settings.language}"]`);
     if (langRadio) langRadio.checked = true;
@@ -207,6 +206,6 @@ function collectSettings() {
 
 function applyRuntimeSettings(settings) {
     changeLanguage(settings.language);
-    currentLang = settings.language;
+    initDatePickers(settings.language);
     currentTargetCurrencies = settings.preferredCurrencies;
 }

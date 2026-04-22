@@ -34,7 +34,6 @@ const translations = {
 };
 
 function changeLanguage(lang) {
-    currentLang = lang;
     localStorage.setItem('lang', lang);
     
     document.querySelectorAll('[data-i18n]').forEach(element => {
@@ -46,5 +45,5 @@ function changeLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    changeLanguage(currentLang);
+    changeLanguage(localStorage.getItem('lang') || 'en');
 });
