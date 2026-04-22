@@ -26,8 +26,8 @@
     <main class="w-screen p-8 mt-16 flex flex-col items-center grow gap-4">
         <div id="settings-screen"
             class="w-screen h-screen bg-white/80 absolute top-0 z-2 items-center justify-center flex">
-            <div class="bg-gray-200 w-80 h-80 z-3 p-8 rounded-2xl shadow-2xl">
-                <h1 data-i18n="settings" class="text-center font-semibold text-2xl mb-4">Settings</h1>
+            <div class="bg-gray-200 w-80 h-max z-3 p-8 rounded-2xl shadow-2xl">
+                <h1 data-i18n="settings" class="text-center font-semibold text-2xl mb-8">Settings</h1>
                 <div class="border-b border-gray-400 pb-2">
                     <p data-i18n="language" class="mb-2">Language:</p>
                     <div class="lang-select flex gap-4">
@@ -50,7 +50,12 @@
                         <label for="czk">CZK</label>
                         <input type="checkbox" id="usd" name="currency" value="USD" class="ml-4">
                         <label for="usd">USD</label>
+                        <input type="checkbox" id="gbp" name="currency" value="GBP" class="ml-4">
+                        <label for="gbp">GBP</label>
                     </div>
+                </div>
+                <div class="mt-8 flex justify-center">
+                    <button id="save-settings-btn" data-i18n="save-settings" class="bg-indigo-600 text-white font-semibold py-2 px-4 rounded-full w-max hover:bg-indigo-500 cursor-pointer active:bg-indigo-400">Save Settings</button>
                 </div>
             </div>
         </div>

@@ -4,10 +4,10 @@ const weakestCurrencyDisplay = document.getElementById('weakest-currency');
 const resultsBody = document.getElementById('results-body');
 const settingsBtn = document.getElementById('settings-btn');
 const settingsScreen = document.getElementById('settings-screen');
-console.log('App initialized, DOM elements selected');
+const saveSettingsBtn = document.getElementById('save-settings-btn');
 
 calculateBtn.addEventListener('click', async () => {
-        const baseCurrency = document.getElementById('base-currency').value;
+    const baseCurrency = document.getElementById('base-currency').value;
     const startDate = document.getElementById('start-date').value;
     const endDate = document.getElementById('end-date').value;
 
@@ -25,7 +25,7 @@ calculateBtn.addEventListener('click', async () => {
 
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({ message: "Unknown Server Error" }));
-            
+
             alert(`Error (${response.status}): ${errorData.message || 'Unable to fetch data. Please try again later.'}`);
             return;
         }
@@ -67,8 +67,16 @@ settingsBtn.addEventListener('click', () => {
     settingsScreen.classList.add('flex');
 });
 
+saveSettingsBtn.addEventListener('click', () => {
+    saveSettings();
+
+    settingsScreen.classList.add('hidden');
+    settingsScreen.classList.remove('flex');
+});
+
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadSettings();
 
     const dateConfig = {
         locale: "en",
@@ -91,3 +99,59 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+async function loadSettings() {
+    try {
+        const response = await fetch('/api/settings');
+
+        if (response.redirected) {
+            window.location.href = response.url;
+            return;
+        }
+
+        const settings = await response.json();
+        console.log(settings);
+
+        // Apply settings to the UI
+        document.querySelector(`.lang-select input[value="${settings.language}"]`).checked = true;
+        document.getElementById('base-currency').value = settings.baseCurrency;
+        document.querySelectorAll('.preferred-currencies-selector input').forEach((checkbox) => {
+            checkbox.checked = settings.preferredCurrencies.includes(checkbox.value);
+        });
+    } catch (error) {
+        console.error('Error loading settings:', error);
+    }
+}
+
+async function saveSettings() {
+    const language = document.querySelector('.lang-select input:checked').value;
+    const baseCurrency = document.getElementById('base-currency').value;
+    const preferredCurrencies = Array.from(document.querySelectorAll('.preferred-currencies-selector input:checked')).map(input => input.value);
+
+    const settings = {
+        language,
+        baseCurrency,
+        preferredCurrencies
+    };
+
+    try {
+        const response = await fetch('/api/settings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(settings)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ message: "Unknown Server Error" }));
+            alert(`Error (${response.status}): ${errorData.message || 'Unable to save settings. Please try again later.'}`);
+        } else {
+            alert('Settings saved successfully.');
+        }
+    } catch (error) {
+        console.error('Error saving settings:', error);
+        alert('Unable to connect to server.');
+    }
+
+}
