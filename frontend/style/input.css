@@ -61,29 +61,37 @@
     .rates-table td {
         @apply px-4 py-2;
     }
+
+    .lang-select label {
+        @apply cursor-pointer px-2 py-1 rounded-md border-2 border-transparent hover:border-gray-400;
+    }
+
+    .lang-select input:checked + label {
+        @apply border-indigo-600 bg-indigo-200;
+    }
+
+    .lang-select input {
+        @apply hidden;
+    }
 }
 
 .flatpickr-calendar {
-    font-family: inherit !important; /* Převezme font vaší stránky */
-    border-radius: 0.5rem !important; /* Zaoblení odpovídající rounded-md */
+    font-family: inherit !important;
+    border-radius: 0.5rem !important; /* rounded-md */
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1) !important; /* Tailwind shadow-lg */
-    padding: 2rem !important; /* Odpovídá p-4 */
-    width: max-content !important; /* Plná šířka pro lepší responsivitu */
+    padding: 2rem !important;
+    width: max-content !important;
 }
 
-/* 2. Dnešní den (neoznačený) - rámeček */
 .flatpickr-day.today {
-    border-color: #4f39f6 !important; /* barva border-amber-400 */
+    border-color: #4f39f6 !important; /* border-indigo-600 */
 }
 
-/* 3. Efekt přejetí myší přes běžný den */
 .flatpickr-day:hover {
     background: #e5e7eb !important; /* bg-gray-200 */
     border-color: #e5e7eb !important;
 }
 
-/* 4. TOTO JE MAGIE PRO VYBRANÝ DEN (Start, Konec i běžný klik) */
-/* Vypadá to jako hodně kódu, ale Flatpickr má mnoho stavů pro vybraná data */
 .flatpickr-day.selected, 
 .flatpickr-day.startRange, 
 .flatpickr-day.endRange, 
@@ -102,9 +110,9 @@
 .flatpickr-day.selected.nextMonthDay, 
 .flatpickr-day.startRange.nextMonthDay, 
 .flatpickr-day.endRange.nextMonthDay {
-    background: #4f39f6 !important; /* Vaše bg-amber-400 */
+    background: #4f39f6 !important; /* bg-indigo-600 */
     border-color: #4f39f6 !important;
-    color: #ffffff !important; /* Tmavý text text-gray-800 pro dobrou čitelnost na žluté */
+    color: #ffffff !important;
 }
 
 .flatpickr-current-month {
@@ -117,7 +125,6 @@
     width: 100% !important;
 }
 
-/* 2. Zrušíme případné tvrdé okraje z originálního Flatpickr CSS */
 .flatpickr-monthDropdown-months {
     margin: 0 !important;
 }
