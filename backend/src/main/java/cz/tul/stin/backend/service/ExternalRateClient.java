@@ -1,5 +1,6 @@
 package cz.tul.stin.backend.service;
 
+import cz.tul.stin.backend.config.SupportedCurrenciesConfig;
 import cz.tul.stin.backend.model.TimeframeRateResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,17 +20,11 @@ public class ExternalRateClient implements RateClient {
     @Value("${api.exchangerate.key}")
     private String apiKey;
 
-    public static final Set<String> SUPPORTED_CURRENCIES = Set.of(
-                    "AUD", "CAD", "CHF", "CNY", "CZK", "DKK", "EUR", "GBP", "HKD", "HUF",
-                    "ILS", "JPY", "KRW", "MXN", "NOK", "NZD", "PLN", "RON", "SEK", "SGD",
-                    "THB", "TRY", "USD", "ZAR"
-    );
-
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
     public TimeframeRateResponse getTimeframeRates(String base, String startDate, String endDate) {
-        String currencies = String.join(",", SUPPORTED_CURRENCIES);
+        String currencies = String.join(",", SupportedCurrenciesConfig.SUPPORTED_CURRENCIES);
         String url = String.format("%s?access_key=%s&source=%s&currencies=%s&start_date=%s&end_date=%s",
                 apiUrl, apiKey, base, currencies, startDate, endDate);
 
