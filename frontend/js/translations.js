@@ -33,10 +33,7 @@ const translations = {
     }
 };
 
-let currentLang = 'cs'; //localStorage.getItem('lang') || 'cs';
-
 function changeLanguage(lang) {
-    currentLang = lang;
     localStorage.setItem('lang', lang);
     
     document.querySelectorAll('[data-i18n]').forEach(element => {
@@ -48,5 +45,5 @@ function changeLanguage(lang) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    changeLanguage(currentLang);
+    changeLanguage(localStorage.getItem('lang') || 'en');
 });
