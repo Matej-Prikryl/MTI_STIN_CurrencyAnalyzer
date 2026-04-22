@@ -1,12 +1,14 @@
 package cz.tul.stin.backend.service;
 
 import cz.tul.stin.backend.model.Settings;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.File;
 
 @Service
+@NoArgsConstructor
 public class SettingsService {
     private final String FILE_PATH = "settings.json";
     private final ObjectMapper objectMapper = new ObjectMapper();

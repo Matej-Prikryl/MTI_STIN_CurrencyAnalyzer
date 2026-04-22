@@ -1,7 +1,7 @@
 package cz.tul.stin.backend.service;
 
 import cz.tul.stin.backend.model.TimeframeRateResponse;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
