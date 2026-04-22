@@ -4,23 +4,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./output.css" rel="stylesheet">
+    <link href="./style/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="translations.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/cs.js"></script>
     <title data-i18n="app-title">Currency Analyzer</title>
 </head>
 
 <body class="flex flex-col min-h-screen">
 
-    <header class="bg-gray-200 w-screen p-4 flex justify-between items-center sticky top-0">
+    <header class="bg-gray-200 w-screen p-4 flex justify-between items-center sticky top-0 z-10 shadow-lg">
         <p data-i18n="app-title" class="font-semibold ml-4 text-gray-600">Currency Analyzer</p>
-        <div class="bg-gray-600 w-5 h-5"></div>
+        <button id="settings-btn" class="w-max h-max p-1 rounded-full cursor-pointer hover:bg-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="fill-gray-600 hover:fill-gray-200" viewBox="0 -960 960 960" width="24px"><path d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z"/></svg>
+        </button>
     </header>
 
 
     <main class="w-screen p-8 mt-16 flex flex-col items-center grow gap-4">
+        <div id="settings-screen" class="w-screen h-screen bg-white/80 absolute top-0 z-2 items-center justify-center hidden">
+            <div class="bg-gray-200 w-80 h-80 z-3 p-8 rounded-2xl shadow-2xl">
+                <h1 data-i18n="settings" class="text-center font-semibold text-2xl mb-4">Settings</h1>
+                <div>
+                    <p data-i18n="language">Language:</p>
+                    <input type="radio" id="english" name="language" value="en" checked>
+                    <label for="english">en</label>
+                    <input type="radio" id="czech" name="language" value="cs" class="ml-4">
+                    <label for="czech">cs</label>
+                </div>
+                <div class="mt-4">
+                    <p data-i18n="prefered-currencies">Prefered Currencies:</p>
+                    <input type="checkbox" id="eur" name="currency" value="EUR" checked>
+                    <label for="eur">EUR</label>
+                    <input type="checkbox" id="czk" name="currency" value="CZK" class="ml-4">
+                    <label for="czk">CZK</label>
+                    <input type="checkbox" id="usd" name="currency" value="USD" class="ml-4">
+                    <label for="usd">USD</label>
+                </div>
+            </div>
+        </div>
         <div class=" flex w-full items-center gap-8 justify-center">
             <div class="w-24 h-20">
                 <label data-i18n="base-currency" for="base-currency" class="font-light text-xs w-max">Base Currency</label>
@@ -78,7 +98,10 @@
         <p class="text-center">footer</p>
     </footer>
 
-    <script src="app.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/translations.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/cs.js"></script>
 </body>
 
 </html>

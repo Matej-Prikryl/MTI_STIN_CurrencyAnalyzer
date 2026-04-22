@@ -33,7 +33,7 @@ const translations = {
     }
 };
 
-let currentLang = 'cs'; //localStorage.getItem('lang') || 'cs';
+let currentLang = 'en'; //localStorage.getItem('lang') || 'cs';
 
 function changeLanguage(lang) {
     currentLang = lang;

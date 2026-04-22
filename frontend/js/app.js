@@ -2,6 +2,9 @@ const calculateBtn = document.getElementById('calculate-btn');
 const strongestCurrencyDisplay = document.getElementById('strongest-currency');
 const weakestCurrencyDisplay = document.getElementById('weakest-currency');
 const resultsBody = document.getElementById('results-body');
+const settingsBtn = document.getElementById('settings-btn');
+const settingsScreen = document.getElementById('settings-screen');
+console.log('App initialized, DOM elements selected');
 
 calculateBtn.addEventListener('click', async () => {
         const baseCurrency = document.getElementById('base-currency').value;
@@ -53,6 +56,17 @@ calculateBtn.addEventListener('click', async () => {
         alert('Unable to connect to server.');
     }
 });
+
+settingsBtn.addEventListener('click', () => {
+    if (!settingsScreen.classList.contains('hidden')) {
+        settingsScreen.classList.add('hidden');
+        settingsScreen.classList.remove('flex');
+        return;
+    }
+    settingsScreen.classList.remove('hidden');
+    settingsScreen.classList.add('flex');
+});
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
