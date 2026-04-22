@@ -6,6 +6,12 @@ spring:
   web:
     resources:
       static-locations: "file:./frontend/,classpath:/static/"
+server:
+  port: 8080
+api:
+  exchangerate:
+    key: "7ad99c6f0c46b20449f9793997e78112"
+    url: "https://api.exchangerate.host/timeframe"
 logging:
   file:
     name: logs/currency-analyzer.log

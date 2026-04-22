@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 @Service
-@Profile("dev")
+@Primary
 public class MockRateClient implements RateClient {
 
     @Override
