@@ -28,11 +28,29 @@ public class ExternalRateClient implements RateClient {
         String url = String.format("%s?access_key=%s&source=%s&currencies=%s&start_date=%s&end_date=%s",
                 apiUrl, apiKey, base, currencies, startDate, endDate);
 
+        log.debug("Requesting external rates from: {}?access_key=***&source={}&currencies={}&start_date={}&end_date={}",
+                apiUrl, base, currencies, startDate, endDate);
+
+        log.info("Fetching timeframe rates from external API for base: {} ({} to {})", base, startDate, endDate);
+
         try {
-            return restTemplate.getForObject(url, TimeframeRateResponse.class);
-        }  catch (Exception e) {
-            log.error("Failed to fetch external rates: {}", e.getMessage());
-            throw new RuntimeException("Failed to fetch external rates: " + e.getMessage());
+            TimeframeRateResponse response = restTemplate.getForObject(url, TimeframeRateResponse.class);
+
+            if (response == null) {
+                log.warn("External API returned null response for base: {}", base);
+            } else if (!response.isSuccess()) {
+                log.warn("External API request was not successful. Base: {}, Response Info: {}", base, response);
+            } else {
+                log.debug("Successfully received rates for {} days.",
+                        (response.getQuotes() != null ? response.getQuotes().size() : 0));
+            }
+
+            return response;
+
+        } catch (Exception e) {
+            log.error("Critical error while calling external rate API: {}", e.getMessage());
+            log.debug("Stack trace for API failure: ", e);
+            throw new RuntimeException("Failed to fetch external rates: " + e.getMessage(), e);
         }
     }
 }

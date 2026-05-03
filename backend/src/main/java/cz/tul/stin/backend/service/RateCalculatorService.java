@@ -3,6 +3,7 @@ package cz.tul.stin.backend.service;
 import cz.tul.stin.backend.model.CurrencyInfo;
 import cz.tul.stin.backend.model.CurrencyExtremes;
 import cz.tul.stin.backend.storage.CurrencyRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 @Service
+@Slf4j
 public class RateCalculatorService {
     private final CurrencyRepository currencyRepository;
 
@@ -19,10 +21,18 @@ public class RateCalculatorService {
     }
 
     public CurrencyInfo getCurrencyInfo(String base, String startDate, String endDate, Set<String> targetCurrencies) {
+        log.info("Calculating currency info for base: {} from {} to {}. Targets: {}", base, startDate, endDate, targetCurrencies);
         var latestRates = currencyRepository.getLatestRates(base);
         var rates = currencyRepository.getTimeframeRates(base, startDate, endDate);
+
+        log.debug("Latest rates received: {} entries. Timeframe rates received: {} days.",
+                (latestRates != null ? latestRates.size() : 0),
+                (rates != null ? rates.size() : 0));
+
         var extremes = getExtremes(latestRates, targetCurrencies);
         var averages = getAverageRates(rates, targetCurrencies);
+
+        log.info("Calculation completed successfully for base currency: {}", base);
         return new CurrencyInfo(extremes, averages);
     }
 
@@ -34,8 +44,12 @@ public class RateCalculatorService {
         Map<String, Double> sums = new HashMap<>();
         Map<String, Integer> counts = new HashMap<>();
 
-        for (Map<String, Double> dailyRates : rates.values()) {
-            if (dailyRates == null) continue;
+        for (Map.Entry<String, Map<String, Double>> dateEntry : rates.entrySet()) {
+            Map<String, Double> dailyRates = dateEntry.getValue();
+            if (dailyRates == null) {
+                log.warn("Skipping null daily rate entry for date: {}", dateEntry.getKey());
+                continue;
+            }
 
             for (Map.Entry<String, Double> entry : dailyRates.entrySet()) {
                 String currency = entry.getKey();
@@ -75,6 +89,9 @@ public class RateCalculatorService {
         Map.Entry<String, Double> weakest = filteredList.stream()
                 .max(Map.Entry.comparingByValue())
                 .orElseThrow();
+
+        log.debug("Extremes found - Strongest: {} ({}), Weakest: {} ({})",
+                strongest.getKey(), strongest.getValue(), weakest.getKey(), weakest.getValue());
 
         return new CurrencyExtremes(
                 new CurrencyExtremes.RateEntry(strongest.getKey(), strongest.getValue()),
