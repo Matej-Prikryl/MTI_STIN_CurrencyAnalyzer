@@ -3,7 +3,6 @@ package cz.tul.stin.backend.controller;
 import cz.tul.stin.backend.model.Settings;
 import cz.tul.stin.backend.service.SettingsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
