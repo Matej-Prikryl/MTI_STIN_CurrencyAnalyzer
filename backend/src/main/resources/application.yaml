@@ -20,6 +20,6 @@ logging:
       max-file-size: 10MB
       max-history: 30
   level:
-    root: WARN
-    cz.tul.stin.backend: WARN
+    root: INFO
+    cz.tul.stin.backend: INFO
     org.springframework.web: WARN
