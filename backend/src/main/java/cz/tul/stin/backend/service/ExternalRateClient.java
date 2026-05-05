@@ -4,15 +4,13 @@ import cz.tul.stin.backend.config.SupportedCurrenciesConfig;
 import cz.tul.stin.backend.model.TimeframeRateResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Set;
-
 @Service
 @Slf4j
-//@Primary
+@Profile("!dev")
 public class ExternalRateClient implements RateClient {
     @Value("${api.exchangerate.url}")
     private String apiUrl;
