@@ -5,7 +5,7 @@ spring:
     active: dev
   web:
     resources:
-      static-locations: "file:./frontend/,classpath:/static/"
+      static-locations: "classpath:/static/, file:./frontend/"
 server:
   port: 8080
 api:
