@@ -32,9 +32,20 @@ jobs:
 
       - name: Build Frontend
         run: |
+          echo "--- KDE TO JSEM? ---"
+          pwd
+          echo "--- CO JE V KOŘENU? ---"
+          ls -F
+          echo "--- POKOUŠÍM SE VLEZT DO FRONTENDU ---"
+          cd frontend || { echo "CHYBA: Složka frontend neexistuje!"; ls -R; exit 1; }
           npm install
           npm run build
-        working-directory: frontend
+
+      - name: Debug Frontend Build
+        run: |
+          echo "Aktuální složka: $(pwd)"
+          echo "Obsah složky frontend:"
+          ls -R frontend/dist || echo "Složka dist neexistuje!"
 
       - name: Debug Frontend Build
         run: |
