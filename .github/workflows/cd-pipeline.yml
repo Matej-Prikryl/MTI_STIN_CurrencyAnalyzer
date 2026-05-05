@@ -50,8 +50,7 @@ jobs:
       - name: Copy Frontend to Backend
         run: |
           mkdir -p backend/src/main/resources/static
-          cp -r frontend/dist/* backend/src/main/resources/static/
-          # Poznámka: Pokud tvůj build končí ve složce 'build', změň 'dist' na 'build'
+          cp -r frontend/* backend/src/main/resources/static/
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
