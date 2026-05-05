@@ -33,7 +33,6 @@ build/
 .vscode/
 
 ### App specific ###
-DSP.txt
 settings.json
 rates_cache.json
 
@@ -48,23 +47,3 @@ application-local.properties
 ### OS specific ###
 .DS_Store
 Thumbs.db
-
-### Frontend / Node.js / Tailwind CSS ###
-# Dependencies
-node_modules/
-.npm/
-
-# Build outputs
-/frontend/dist/
-/frontend/build/
-/frontend/.parcel-cache/
-/frontend/.vite/
-
-# Generated CSS Tailwind file (optional)
-# /frontend/src/output.css
-
-# Logs from packaging systems
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
