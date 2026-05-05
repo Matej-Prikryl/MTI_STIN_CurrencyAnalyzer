@@ -35,24 +35,3 @@ jobs:
           app-name: 'stin-prikryl-currency-analyzer'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: backend/target/*.jar
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Build Frontend
-        run: |
-          npm install
-          npm run build
-        working-directory: frontend
-
-      - name: Copy Frontend to Backend
-        run: |
-          mkdir -p backend/src/main/resources/static
-          cp -r frontend/dist/* backend/src/main/resources/static/
-          # Poznámka: Pokud tvůj build končí ve složce 'build', změň 'dist' na 'build'
-
-      - name: Build with Maven
-        run: mvn clean package -DskipTests
-        working-directory: backend
