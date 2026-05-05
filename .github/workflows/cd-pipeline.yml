@@ -3,7 +3,7 @@ name: Deploy to Azure
 on:
   push:
     branches:
-      - main
+      - develop
   workflow_run:
     workflows: ["Backend CI Pipeline"]
     types: [completed]
@@ -25,17 +25,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build with Maven
-        run: mvn clean package -DskipTests
-        working-directory: backend
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'stin-prikryl-currency-analyzer'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: backend/target/*.jar
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -47,11 +36,24 @@ jobs:
           npm run build
         working-directory: frontend
 
+      - name: Debug Frontend Build
+        run: |
+          echo "Aktuální složka: $(pwd)"
+          echo "Obsah složky frontend:"
+          ls -R frontend/dist || echo "Složka dist neexistuje!"
+
       - name: Copy Frontend to Backend
         run: |
           mkdir -p backend/src/main/resources/static
-          cp -r frontend/* backend/src/main/resources/static/
+          cp -r frontend/dist/* backend/src/main/resources/static/
 
       - name: Build with Maven
         run: mvn clean package -DskipTests
         working-directory: backend
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'stin-prikryl-currency-analyzer'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: backend/target/*.jar
