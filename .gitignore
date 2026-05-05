@@ -38,6 +38,7 @@ settings.json
 rates_cache.json
 
 # logs
+logs/
 *.log
 
 ### Secrets ###
