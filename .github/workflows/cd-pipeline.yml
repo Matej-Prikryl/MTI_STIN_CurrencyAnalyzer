@@ -47,6 +47,12 @@ jobs:
           echo "Obsah složky frontend:"
           ls -R frontend/dist || echo "Složka dist neexistuje!"
 
+      - name: Debug Frontend Build
+        run: |
+          echo "Aktuální složka: $(pwd)"
+          echo "Obsah složky frontend:"
+          ls -R frontend/dist || echo "Složka dist neexistuje!"
+
       - name: Copy Frontend to Backend
         run: |
           mkdir -p backend/src/main/resources/static
