@@ -1,6 +1,3 @@
-import { changeLanguage } from './translations.js';
-window.changeLanguage = changeLanguage;
-
 // API Endpoints
 const API = {
     CURRENCIES: '/api/rates/supported-currencies',
