@@ -78,29 +78,41 @@ class CurrencyRepositoryTest {
     }
 
     @Test
-    void testInvalidateCache() {
+    void testGetLatestRates_LatestRatesEmpty_ThrowsException() {
         String base = "EUR";
         String startDate = "2010-01-01";
         String endDate = "2011-01-01";
         TimeframeRateResponse response = new TimeframeRateResponse();
         Map<String, Map<String, Double>> quotes = new HashMap<>();
-        Map<String, Double> day1 = new HashMap<>();
-        day1.put("USD", 1.1);
-        quotes.put("2010-01-01", day1);
+        quotes.put("2011-01-01", new HashMap<>()); // Empty rates for the date
         response.setQuotes(quotes);
 
         when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(response);
 
-        // 1. Initial fetch (populates cache)
-        currencyRepository.getLatestRates(base);
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> currencyRepository.getLatestRates(base));
+        assertEquals("Latest rates absent in this entry.", exception.getMessage());
+    }
 
-        // 2. Invalidate cache
-        currencyRepository.invalidateCache();
+    @Test
+    void testGetLatestRates_APIReturnsNull_ThrowsException() {
+        String base = "EUR";
+        String startDate = "2010-01-01";
+        String endDate = "2011-01-01";
+        when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(null);
 
-        // 3. Second fetch (should trigger new API call)
-        currencyRepository.getLatestRates(base);
+        assertThrows(RuntimeException.class, () -> currencyRepository.getLatestRates(base));
+    }
 
-        verify(rateClient, times(2)).getTimeframeRates(base, startDate, endDate);
+    @Test
+    void testGetLatestRates_APIReturnsEmptyQuotes_ThrowsException() {
+        String base = "EUR";
+        String startDate = "2010-01-01";
+        String endDate = "2011-01-01";
+        TimeframeRateResponse response = new TimeframeRateResponse();
+        response.setQuotes(new HashMap<>());
+        when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(response);
+
+        assertThrows(RuntimeException.class, () -> currencyRepository.getLatestRates(base));
     }
 
     @Test
@@ -125,24 +137,28 @@ class CurrencyRepositoryTest {
     }
 
     @Test
-    void testGetLatestRates_APIReturnsNull_ThrowsException() {
-        String base = "EUR";
-        String startDate = "2010-01-01";
-        String endDate = "2011-01-01";
-        when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(null);
-
-        assertThrows(RuntimeException.class, () -> currencyRepository.getLatestRates(base));
-    }
-
-    @Test
-    void testGetLatestRates_APIReturnsEmptyQuotes_ThrowsException() {
+    void testInvalidateCache() {
         String base = "EUR";
         String startDate = "2010-01-01";
         String endDate = "2011-01-01";
         TimeframeRateResponse response = new TimeframeRateResponse();
-        response.setQuotes(new HashMap<>());
+        Map<String, Map<String, Double>> quotes = new HashMap<>();
+        Map<String, Double> day1 = new HashMap<>();
+        day1.put("USD", 1.1);
+        quotes.put("2010-01-01", day1);
+        response.setQuotes(quotes);
+
         when(rateClient.getTimeframeRates(base, startDate, endDate)).thenReturn(response);
 
-        assertThrows(RuntimeException.class, () -> currencyRepository.getLatestRates(base));
+        // 1. Initial fetch (populates cache)
+        currencyRepository.getLatestRates(base);
+
+        // 2. Invalidate cache
+        currencyRepository.invalidateCache();
+
+        // 3. Second fetch (should trigger new API call)
+        currencyRepository.getLatestRates(base);
+
+        verify(rateClient, times(2)).getTimeframeRates(base, startDate, endDate);
     }
 }
