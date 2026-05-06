@@ -8,6 +8,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,31 +29,34 @@ class SettingsServiceTest {
         objectMapper = new ObjectMapper();
 
         // Point FILE_PATH to a temp file so tests don't touch the filesystem
-        filePath = "settings.json";
+        filePath = tempDir.resolve("settings.json").toString();
         setPrivateField(settingsService, "FILE_PATH", filePath);
     }
 
     // --- loadSettings() ---
 
     @Test
-    void loadSettings_fileDoesNotExist_returnsDefaultSettings() {
+    void loadSettings_fileDoesNotExist_returnsDefaultSettings() throws Exception {
+        String nonExistentPath = tempDir.resolve("non_existent.json").toString();
+        setPrivateField(settingsService, "FILE_PATH", nonExistentPath);
+
         Settings result = settingsService.loadSettings();
 
         assertNotNull(result);
+        assertEquals(new Settings(), result);
     }
 
     @Test
     void loadSettings_validFile_returnsDeserializedSettings() throws Exception {
         Settings expected = new Settings();
-        // Populate fields here if Settings has them, e.g.:
-        // expected.setSomeField("value");
+        expected.setLanguage("cs");
 
         objectMapper.writeValue(new File(filePath), expected);
 
         Settings result = settingsService.loadSettings();
 
         assertNotNull(result);
-        assertEquals(expected, result); // requires equals() on Settings
+        assertEquals(expected, result);
     }
 
     @Test
@@ -64,6 +68,7 @@ class SettingsServiceTest {
         Settings result = settingsService.loadSettings();
 
         assertNotNull(result);
+        assertEquals(new Settings(), result);
     }
 
     @Test
@@ -74,6 +79,7 @@ class SettingsServiceTest {
         Settings result = settingsService.loadSettings();
 
         assertNotNull(result);
+        assertEquals(new Settings(), result);
     }
 
     // --- saveSettings() ---
@@ -81,7 +87,7 @@ class SettingsServiceTest {
     @Test
     void saveSettings_writesFileSuccessfully() throws Exception {
         Settings settings = new Settings();
-        // settings.setSomeField("value");
+        settings.setLanguage("de");
 
         settingsService.saveSettings(settings);
 
@@ -90,33 +96,33 @@ class SettingsServiceTest {
 
         Settings loaded = objectMapper.readValue(file, Settings.class);
         assertNotNull(loaded);
-        assertEquals(settings, loaded); // requires equals() on Settings
+        assertEquals(settings, loaded);
     }
 
     @Test
-    void saveSettings_thenLoad_roundTripsCorrectly() {
-        Settings original = new Settings();
-        // original.setSomeField("roundtrip");
+    void saveSettings_throwsRuntimeExceptionOnError() throws Exception {
+        // Point to a directory to cause write failure
+        String dirPath = tempDir.resolve("some_dir").toString();
+        File dir = new File(dirPath);
+        assertTrue(dir.mkdir());
+        setPrivateField(settingsService, "FILE_PATH", dirPath);
 
-        settingsService.saveSettings(original);
-        Settings loaded = settingsService.loadSettings();
-
-        assertNotNull(loaded);
-        assertEquals(original, loaded);
+        assertThrows(RuntimeException.class, () -> settingsService.saveSettings(new Settings()));
     }
 
+    // --- getSettingsPath() ---
+
     @Test
-    void saveSettings_overwritesExistingFile() throws Exception {
-        Settings first = new Settings();
-        Settings second = new Settings();
-        // first.setSomeField("first");
-        // second.setSomeField("second");
+    void getSettingsPath_returnsCorrectPath() throws Exception {
+        Method method = SettingsService.class.getDeclaredMethod("getSettingsPath");
+        method.setAccessible(true);
+        String path = (String) method.invoke(settingsService);
 
-        settingsService.saveSettings(first);
-        settingsService.saveSettings(second);
-
-        Settings loaded = settingsService.loadSettings();
-        assertEquals(second, loaded);
+        if (new File("/home").exists()) {
+            assertEquals("/home/settings.json", path);
+        } else {
+            assertEquals("settings.json", path);
+        }
     }
 
     // --- Helpers ---

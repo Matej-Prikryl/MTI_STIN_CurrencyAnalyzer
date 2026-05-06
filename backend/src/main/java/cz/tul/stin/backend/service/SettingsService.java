@@ -1,18 +1,19 @@
 package cz.tul.stin.backend.service;
 
+import java.io.File;
+
+import org.springframework.stereotype.Service;
+
 import cz.tul.stin.backend.model.Settings;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
-
-import java.io.File;
 
 @Service
 @Slf4j
 @NoArgsConstructor
 public class SettingsService {
-    private final String FILE_PATH = "settings.json";
+    private final String FILE_PATH = getSettingsPath();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public Settings loadSettings() {
@@ -43,5 +44,12 @@ public class SettingsService {
             log.error("Critical error saving settings: ", e);
             throw new RuntimeException("Unable to save settings", e);
         }
+    }
+
+    private String getSettingsPath() {
+        if (new File("/home").exists()) {
+            return "/home/settings.json";
+        }
+        return "settings.json";
     }
 }

@@ -47,5 +47,3 @@ function changeLanguage(lang) {
 document.addEventListener('DOMContentLoaded', () => {
     changeLanguage(localStorage.getItem('lang') || 'en');
 });
-
-window.changeLanguage = changeLanguage;
