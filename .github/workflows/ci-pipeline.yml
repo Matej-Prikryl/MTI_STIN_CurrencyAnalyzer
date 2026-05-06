@@ -26,7 +26,16 @@ jobs:
           cache: maven
 
       - name: Build and Test with Maven
-        run: mvn clean test
+        run: mvn clean verify
+
+      - name: Jacoco Report to PR
+        uses: madrapps/jacoco-report@v1.6.1
+        if: github.event_name == 'pull_request'
+        with:
+          paths: ${{ github.workspace }}/backend/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-instructions: 80
+          min-coverage-branches: 80
 
       - name: Upload JaCoCo Coverage Report
         uses: actions/upload-artifact@v4
