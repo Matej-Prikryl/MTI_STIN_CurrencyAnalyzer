@@ -13,7 +13,7 @@ import tools.jackson.databind.ObjectMapper;
 @Slf4j
 @NoArgsConstructor
 public class SettingsService {
-    private final String FILE_PATH = System.getenv("HOME") != null ? System.getenv("HOME") + "/settings.json" : "settings.json";
+    private final String FILE_PATH = getSettingsPath();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public Settings loadSettings() {
@@ -44,5 +44,12 @@ public class SettingsService {
             log.error("Critical error saving settings: ", e);
             throw new RuntimeException("Unable to save settings", e);
         }
+    }
+
+    private String getSettingsPath() {
+        if (new File("/home").exists()) {
+            return "/home/settings.json";
+        }
+        return "settings.json";
     }
 }
