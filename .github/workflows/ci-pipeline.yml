@@ -34,8 +34,7 @@ jobs:
         with:
           paths: ${{ github.workspace }}/backend/target/site/jacoco/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-          min-coverage-instructions: 80
-          min-coverage-branches: 80
+          min-coverage-overall: 80
 
       - name: Upload JaCoCo Coverage Report
         uses: actions/upload-artifact@v4
