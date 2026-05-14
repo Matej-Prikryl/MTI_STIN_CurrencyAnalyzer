@@ -1,5 +1,6 @@
 package cz.tul.stin.backend.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Value("${APP_USER_PASSWORD:1234}")
+    private String password;
+
+    @Value("${APP_USER_NAME:user}")
+    private String username;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -35,8 +43,8 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails user = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("CurrencyAnalyzer")
+                .username(username)
+                .password(password)
                 .roles("USER")
                 .build();
         return new InMemoryUserDetailsManager(user);
